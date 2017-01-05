@@ -42,6 +42,7 @@
 
                   if( is_null($username) || time() > $expired)
                   {
+                    CookieHelper::ClearCookies();
                       ?>
                       <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/register.php"><span class="glyphicon glyphicon-log-plus"></span> Регистрация</a></li>
                       <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/login.php"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
