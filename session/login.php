@@ -54,23 +54,23 @@ if ($performed == true){
         <h1>Авторизация на сайте</h1>
         <form method="post" action="../session/login.php" class="form-horizontal">
             <input type="hidden" name="performed" value="true">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="login">Логин:</label>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2" for="login">Логин:</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="login" name="login" placeholder="Введите свой логин"  maxlength="30" minlength="3" required>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="pwd">Пароль:</label>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2" for="password">Пароль:</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="pwd" name="password" placeholder="Введите пароль" required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль" required>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">Авторизоваться</button>
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Авторизоваться</button>
                 </div>
             </div>
 

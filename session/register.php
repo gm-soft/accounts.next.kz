@@ -92,8 +92,8 @@ if ($performed == true) {
         </form>
     </div>
     <script>
-        $('#pwd, #pwdconf').on('keyup', function () {
-            if ($('#pwd').val() == $('#pwdconf').val()) {
+        $('#password, #password_confirm').on('keyup', function () {
+            if ($('#password').val() == $('#password_confirm').val()) {
                 $('#pwd_message').html('Пароли совпадают').css('color', 'green');
             } else
                 $('#pwd_message').html('Пароли не совпадают').css('color', 'red');

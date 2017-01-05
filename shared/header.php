@@ -38,9 +38,9 @@
 
                   <?php
                   $username = isset($_COOKIE["login"]) ? $_COOKIE["login"] : null;
-                  $ts = isset($_COOKIE["ts"]) ? $_COOKIE["ts"] : 3601;
+                  $expired = isset($_COOKIE["expired"]) ? $_COOKIE["expired"] : 3601;
 
-                  if( is_null($username) || (time() - $ts) > 3600)
+                  if( is_null($username) || time() > $expired)
                   {
                       ?>
                       <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/register.php"><span class="glyphicon glyphicon-log-plus"></span> Регистрация</a></li>

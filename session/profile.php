@@ -11,11 +11,12 @@ if (!isset($_COOKIE["hash"]) || $_COOKIE["hash"] == "") {
     redirect("../session/login.php");
 }
 
-require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
+
 $mysql = new MysqlHelper(DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
 $user = $mysql->getUser($_COOKIE["hash"], "user_hash");
 
 if (!is_null($user)) {
+    require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
     ?>
     <div class="container">
         <h1>Профайл пользователя</h1>

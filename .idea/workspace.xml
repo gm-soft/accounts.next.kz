@@ -2,60 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ac8b642-76fb-40d2-8331-70b75e0f4534" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/accounts.next.kz.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/php.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-flex.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-flex.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-flex.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-flex.min.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-grid.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-grid.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-grid.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-grid.min.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-reboot.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-reboot.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-reboot.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap-reboot.min.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/bootstrap.min.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/custom.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether-theme-arrows-dark.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether-theme-arrows-dark.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether-theme-arrows.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether-theme-arrows.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether-theme-basic.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether-theme-basic.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/css/tether.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/bootstrap.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/bootstrap.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/jquery-3.1.1.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/tether.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/tether.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/helpers/CookieHelperClass.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/helpers/MysqlHelperClass.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/config.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/constants.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/debug.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/errors.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/event.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/log_page.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/process_events.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/UserClass.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/session/login.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/session/logout.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/session/profile.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/session/register.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shared/footer.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shared/header.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/session/login.php" afterPath="$PROJECT_DIR$/session/login.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/session/register.php" afterPath="$PROJECT_DIR$/session/register.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -73,72 +21,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MysqlHelperClass.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/helpers/MysqlHelperClass.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="99" column="25" lean-forward="false" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
-              <folding>
-                <marker date="1483628110130" expanded="true" signature="286:299" ph="CREATE TABLE... ${self::TABLE_USERS}" />
-                <marker date="1483628110130" expanded="true" signature="286:746" ph="CREATE TABLE... IF" />
-                <marker date="1483628110130" expanded="true" signature="787:1216" ph="CREATE TABLE... IF" />
-                <marker date="1483628110130" expanded="true" signature="813:1216" ph="CREATE TABLE... ${self::TABLE_ACCOUNTS}" />
-                <marker date="1483628110130" expanded="true" signature="2255:2268" ph="select * fro... " />
-                <marker date="1483628110130" expanded="true" signature="2255:2325" ph="select * fro... users" />
-                <marker date="1483628110130" expanded="true" signature="2848:3015" ph="insert into `${$this-&gt;table_users}`... " />
-                <marker date="1483628110130" expanded="true" signature="4916:4961" ph="delete from " />
-                <marker date="1483628110130" expanded="true" signature="4916:4977" ph="delete from " />
-                <marker date="1483628110130" expanded="true" signature="4916:4978" ph="delete from " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/session/login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="header.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shared/header.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="34" column="63" lean-forward="false" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="log_page.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log/log_page.php">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="484">
-              <caret line="48" column="35" lean-forward="false" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+              <caret line="64" column="68" lean-forward="false" selection-start-line="64" selection-start-column="68" selection-end-line="64" selection-end-column="68" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/session/profile.php">
+      <file leaf-file-name="register.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/session/register.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="14" lean-forward="true" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="41" lean-forward="false" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+            <state relative-caret-position="603">
+              <caret line="93" column="12" lean-forward="false" selection-start-line="93" selection-start-column="12" selection-end-line="93" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -157,16 +54,16 @@
         <option value="$PROJECT_DIR$/include/config.php" />
         <option value="$PROJECT_DIR$/include/constants.php" />
         <option value="$PROJECT_DIR$/session/logout.php" />
-        <option value="$PROJECT_DIR$/session/register.php" />
         <option value="$PROJECT_DIR$/helpers/CookieHelperClass.php" />
         <option value="$PROJECT_DIR$/shared/footer.php" />
         <option value="$PROJECT_DIR$/include/log_page.php" />
         <option value="$PROJECT_DIR$/models/UserClass.php" />
         <option value="$PROJECT_DIR$/helpers/MysqlHelperClass.php" />
-        <option value="$PROJECT_DIR$/session/login.php" />
         <option value="$PROJECT_DIR$/shared/header.php" />
         <option value="$PROJECT_DIR$/log/log_page.php" />
         <option value="$PROJECT_DIR$/session/profile.php" />
+        <option value="$PROJECT_DIR$/session/login.php" />
+        <option value="$PROJECT_DIR$/session/register.php" />
       </list>
     </option>
   </component>
@@ -379,18 +276,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1483610173908</updated>
-      <workItem from="1483610175325" duration="12529000" />
+      <workItem from="1483610175325" duration="12890000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12529000" />
+    <option name="totallyTimeSpent" value="12890000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1296875" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1296875" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -444,14 +341,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/session/register.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="34" column="33" lean-forward="false" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/session/logout.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -465,25 +354,6 @@
         <state relative-caret-position="340">
           <caret line="35" column="41" lean-forward="false" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/MysqlHelperClass.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="99" column="25" lean-forward="false" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
-          <folding>
-            <marker date="1483628110130" expanded="true" signature="286:299" ph="CREATE TABLE... ${self::TABLE_USERS}" />
-            <marker date="1483628110130" expanded="true" signature="286:746" ph="CREATE TABLE... IF" />
-            <marker date="1483628110130" expanded="true" signature="787:1216" ph="CREATE TABLE... IF" />
-            <marker date="1483628110130" expanded="true" signature="813:1216" ph="CREATE TABLE... ${self::TABLE_ACCOUNTS}" />
-            <marker date="1483628110130" expanded="true" signature="2255:2268" ph="select * fro... " />
-            <marker date="1483628110130" expanded="true" signature="2255:2325" ph="select * fro... users" />
-            <marker date="1483628110130" expanded="true" signature="2848:3015" ph="insert into `${$this-&gt;table_users}`... " />
-            <marker date="1483628110130" expanded="true" signature="4916:4961" ph="delete from " />
-            <marker date="1483628110130" expanded="true" signature="4916:4977" ph="delete from " />
-            <marker date="1483628110130" expanded="true" signature="4916:4978" ph="delete from " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -519,11 +389,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/session/login.php">
+    <entry file="file://$PROJECT_DIR$/session/profile.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
-          <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+          <caret line="27" column="14" lean-forward="true" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/MysqlHelperClass.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="99" column="25" lean-forward="false" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
+          <folding>
+            <marker date="1483628110130" expanded="true" signature="286:299" ph="CREATE TABLE... ${self::TABLE_USERS}" />
+            <marker date="1483628110130" expanded="true" signature="286:746" ph="CREATE TABLE... IF" />
+            <marker date="1483628110130" expanded="true" signature="787:1216" ph="CREATE TABLE... IF" />
+            <marker date="1483628110130" expanded="true" signature="813:1216" ph="CREATE TABLE... ${self::TABLE_ACCOUNTS}" />
+            <marker date="1483628110130" expanded="true" signature="2255:2268" ph="select * fro... " />
+            <marker date="1483628110130" expanded="true" signature="2255:2325" ph="select * fro... users" />
+            <marker date="1483628110130" expanded="true" signature="2848:3015" ph="insert into `${$this-&gt;table_users}`... " />
+            <marker date="1483628110130" expanded="true" signature="4916:4961" ph="delete from " />
+            <marker date="1483628110130" expanded="true" signature="4916:4977" ph="delete from " />
+            <marker date="1483628110130" expanded="true" signature="4916:4978" ph="delete from " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -543,10 +432,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/session/profile.php">
+    <entry file="file://$PROJECT_DIR$/session/login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="14" lean-forward="true" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+        <state relative-caret-position="484">
+          <caret line="64" column="68" lean-forward="false" selection-start-line="64" selection-start-column="68" selection-end-line="64" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/session/register.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="603">
+          <caret line="93" column="12" lean-forward="false" selection-start-line="93" selection-start-column="12" selection-end-line="93" selection-end-column="12" />
           <folding />
         </state>
       </provider>

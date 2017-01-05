@@ -17,7 +17,7 @@ class CookieHelper
         $expired = time() - 3600;
         setcookie("login", "", $expired, "/");
         setcookie("hash", "", $expired, "/");
-        setcookie("ts", "", $expired, "/");
+        setcookie("expired", "", $expired, "/");
         return true;
     }
 
@@ -34,7 +34,7 @@ class CookieHelper
         
         setcookie("login", $user->login, $expired, "/");
         setcookie("hash", $user->hash, $expired, "/");
-        setcookie("ts", $ts, $expired, "/");
+        setcookie("expired", $expired, $expired, "/");
         return true;
     }
 }
