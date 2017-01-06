@@ -1,8 +1,5 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-require($_SERVER["DOCUMENT_ROOT"]."/models/UserClass.php");
-require($_SERVER["DOCUMENT_ROOT"]."/helpers/MysqlHelperClass.php");
-require($_SERVER["DOCUMENT_ROOT"]."/helpers/CookieHelperClass.php");
 //---------------------------------------------
 if(!isset($_SESSION)) session_start();
 
@@ -35,15 +32,15 @@ if ($performed == true) {
             CookieHelper::SetUserSession($newUser);
 
             $_SESSION["success"] = array("Вы успешно зарегистрировались на сайте");
-            redirect("../index.php");
+            ApplicationHelper::redirect("../index.php");
         } else {
 
             $_SESSION["errors"] = array($res["data"]);
-            redirect("../session/register.php");
+            ApplicationHelper::redirect("../session/register.php");
         }
     } else {
         $_SESSION["errors"] = $err;
-        redirect("../session/register.php");
+        ApplicationHelper::redirect("../session/register.php");
     }
 
 } else {

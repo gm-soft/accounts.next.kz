@@ -8,12 +8,36 @@
  */
 class User
 {
+
+    /**
+     * @var int
+     */
     public $id;
+
+    /**
+     * @var string
+     */
     public $login;
+
+    /**
+     * @var string
+     */
     public $password;
-    public $created_at;
+
+    /**
+     * @var string
+     */
     public $hash;
+
+    /**
+     * @var int
+     */
     public $permission;
+
+    /**
+     * @var DateTime
+     */
+    public $created_at;
 
     function __construct($id = -1)
     {
@@ -32,7 +56,8 @@ class User
         $this->permission = $row["user_permission"];
         $this->hash = $row["user_hash"];
 
-        $this->created_at = $row["created_at"];
+        //$this->created_at = $row["created_at"];
+        $this->created_at = DateTime::createFromFormat("Y-m-d H:i:s", $row["created_at"]);
     }
 
     public static function fromDatabase(array $databaseRow)

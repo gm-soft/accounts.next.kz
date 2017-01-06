@@ -1,14 +1,11 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-require($_SERVER["DOCUMENT_ROOT"]."/models/UserClass.php");
-require($_SERVER["DOCUMENT_ROOT"]."/helpers/MysqlHelperClass.php");
-require($_SERVER["DOCUMENT_ROOT"]."/helpers/CookieHelperClass.php");
 //---------------------------------------------
 if(!isset($_SESSION)) session_start();
 
 if (!isset($_COOKIE["hash"]) || $_COOKIE["hash"] == "") {
     $_SESSION["error"] = array("Вы должны быть авторизованы на сайте");
-    redirect("../session/login.php");
+    ApplicationHelper::redirect("../session/login.php");
 }
 
 
@@ -25,7 +22,7 @@ if (!is_null($user)) {
             <dt  class="col-sm-3">ID пользователя</dt><dd class="col-sm-9"><?= $user->id?></dd>
             <dt class="col-sm-3">Логин</dt><dd class="col-sm-9"><?= $user->login?></dd>
             <dt class="col-sm-3">Группа</dt><dd class="col-sm-9"><?= $user->permission?></dd>
-            <dt class="col-sm-3">Создан</dt><dd class="col-sm-9"><?= $user->created_at?></dd>
+            <dt class="col-sm-3">Создан</dt><dd class="col-sm-9"><?= date("Y-m-d H:i:s", $user->created_at->getTimestamp())?></dd>
         </div>
     </div>
     <?php
@@ -34,6 +31,6 @@ if (!is_null($user)) {
     //CookieHelper::ClearCookies();
     
     $_SESSION["error"] = array("Возникла какая-то ошибка. Пользователь не найден");
-    redirect("../index.php");
+    ApplicationHelper::redirect("../index.php");
 }
 

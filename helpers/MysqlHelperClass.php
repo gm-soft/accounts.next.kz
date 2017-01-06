@@ -50,6 +50,11 @@ class MysqlHelper
         }
     }
 
+    public static function getNewInstance(){
+        $instance = new self(DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
+        return $instance;
+    }
+
     /**
      * Функция возврата пользователя из базы данных по искомому значению.
      * Возвращает массив с полями result и data. Если запрос был успешен, то
@@ -151,6 +156,9 @@ class MysqlHelper
 
 
 
+
+
+
     function selectData($query) {
         if (is_null($this->context )) return null;
         $data = mysqli_query($this->context, $query);
@@ -181,7 +189,7 @@ class MysqlHelper
         if ($data) {
 
             $data = mysqli_fetch_assoc($data);
-            log_debug("query = ".$query." data = ".var_export($data, true));
+            //ApplicationHelper::debug("query = ".$query." data = ".var_export($data, true));
             $result = true;
 
         } else {

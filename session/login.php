@@ -1,8 +1,5 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-require($_SERVER["DOCUMENT_ROOT"]."/models/UserClass.php");
-require($_SERVER["DOCUMENT_ROOT"]."/helpers/MysqlHelperClass.php");
-require($_SERVER["DOCUMENT_ROOT"]."/helpers/CookieHelperClass.php");
 //---------------------------------------------
 if(!isset($_SESSION)) session_start();
 
@@ -25,7 +22,7 @@ if ($performed == true){
     if (is_null($user)) {
         $err[] = "Пользователь с таким логином отсутствует в базе";
         $_SESSION["errors"] = $err;
-        redirect("../session/login.php");
+        ApplicationHelper::redirect("../session/login.php");
     }
 
     if (!$user->validatePassword($password)) {
@@ -40,11 +37,11 @@ if ($performed == true){
         CookieHelper::SetUserSession($user);
 
         $_SESSION["success"] = array("Вы успешно авторизовались");
-        redirect("../index.php");
+        ApplicationHelper::redirect("../index.php");
 
     } else {
         $_SESSION["errors"] = $err;
-        redirect("../session/login.php");
+        ApplicationHelper::redirect("../session/login.php");
     }
 
 } else {
