@@ -9,7 +9,7 @@ if (!isset($_COOKIE["hash"]) || $_COOKIE["hash"] == "") {
 }
 
 
-$mysql = new MysqlHelper(DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
+$mysql = MysqlHelper::getNewInstance();
 $user = $mysql->getUser($_COOKIE["hash"], "user_hash");
 
 if (!is_null($user)) {

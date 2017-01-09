@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
 
     <script src="../assets/js/tether.min.js"></script>
     <script src="../assets/js/jquery-3.1.1.min.js"></script>
@@ -44,8 +45,8 @@
                   {
                     CookieHelper::ClearCookies();
                       ?>
-                      <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/register.php"><span class="glyphicon glyphicon-log-plus"></span> Регистрация</a></li>
-                      <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/login.php"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+                      <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/register.php"><i class="fa fa-user-plus" aria-hidden="true"></i> Регистрация</a></li>
+                      <li class="nav-item  float-sm-right"><a class="nav-link" href="../session/login.php"><i class="fa fa-sign-in" aria-hidden="true"></i> Войти</a></li>
 
                       <?php
                   } else {
@@ -53,11 +54,11 @@
 
                       <li class="nav-item dropdown  float-sm-right">
                           <a class="nav-link dropdown-toggle" href="#" id="profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="glyphicon glyphicon-user"></span> <?= $username ?>
+                              <i class="fa fa-user" aria-hidden="true"></i> <?= $username ?>
                           </a>
                           <div class="dropdown-menu" aria-labelledby="profile">
-                              <a class="dropdown-item" href="../session/profile.php"><span class="glyphicon glyphicon-cog"></span> Профайл</a>
-                              <a class="dropdown-item" href="../session/logout.php"><span class="glyphicon glyphicon-log-out"></span> Выйти</a>
+                              <a class="dropdown-item" href="../session/profile.php"><i class="fa fa-user" aria-hidden="true"></i> Профайл</a>
+                              <a class="dropdown-item" href="../session/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Выйти</a>
                           </div>
                       </li>
 

@@ -3,32 +3,30 @@ require $_SERVER["DOCUMENT_ROOT"]."/include/config.php";
 //------------------------------------------------------
 header('Content-Type: application/json');
 
-$response = array(
-    "result" => false,
-    "date" => new DateTime()
-);
-$action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : NULL;
+$response = null;
 
-if (is_null($action)) {
-    $response["error"] = "null action";
-    echo json_encode($response);
-    die();
-}
+$ip = $_SERVER["REMOTE_ADDR"];
+$apiRequest = ApiMessage::fromJson($_REQUEST["json"]);
 
-$mysql = MysqlHelper::getNewInstance();
-
-switch ($action){
-    case "test":
-        $user = $mysql->getUser("maximgorbatyuk");
-        $response["result"] = $user;
+switch ($apiRequest->RequestType){
+    case "GetAccount":
+        $account = SteamAccount::fromData("login11122", "asdqwe123", true);
+        $apiMessage = ApiMessage::createApiMessage($apiRequest->RequestType, $account->getJson(), "this is test");
+        $response = $apiMessage;
         break;
 
-    case "date":
-    	$datetime = new DateTime();
-    	$response["datetime"] = $datetime;
-        $response["datetime_formated"] = date("Y-m-d H:i:s", $datetime->getTimestamp());
-    	$response["result"] = DateTime::createFromFormat("Y-m-d H:i:S", $response["datetime_formated"]);
+    case "ReleaseAccount":
+        $account = SteamAccount::fromData("login11122", "asdqwe123", true);
+        $apiMessage = ApiMessage::createApiMessage($apiRequest->RequestType, $account->getJson(), "this is test");
+        $response = $apiMessage;
+        break;
+
+    case "UsingAccount":
+        $account = SteamAccount::fromData("login11122", "asdqwe123", true);
+        $apiMessage = ApiMessage::createApiMessage($apiRequest->RequestType, $account->getJson(), "this is test");
+        $response = $apiMessage;
         break;
 }
 
+ApplicationHelper::debug(var_export($apiRequest, true));
 echo json_encode($response);

@@ -11,6 +11,7 @@ class MysqlHelper
     const DB_NAME = "accounts.next.kz";
     const TABLE_ACCOUNTS = "accounts";
     const TABLE_USERS = "users";
+    const TABLE_SETTINGS = "settings";
     const DB_HOST = "localhost";
 
     const TABLE_USERS_CREATE = "CREATE TABLE IF NOT EXISTS `".self::TABLE_USERS."` (".
@@ -21,16 +22,23 @@ class MysqlHelper
     "`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
     "`user_permission` int(10) unsigned NOT NULL default '1', ".
     "PRIMARY KEY (`user_id`) ".
-    ") ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;";
+    ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
     const TABLE_ACCOUNTS_CREATE = "CREATE TABLE IF NOT EXISTS `".self::TABLE_ACCOUNTS."` (".
     "`account_id` int(11) unsigned NOT NULL auto_increment, ".
     "`account_login` varchar(30) NOT NULL, ".
     "`account_password` varchar(32) NOT NULL, ".
-    "`user_hash` varchar(32) NOT NULL, ".
-    "`user_permission` int(10) unsigned NOT NULL default '1', ".
-    "PRIMARY KEY (`user_id`) ".
-    ") ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 IF NOT EXISTS;";
+    "`account_available` int(2) NOT NULL DEFAULT 1, ".
+    "`account_computer_name` varchar(32), ".
+    "`account_vac_banned` int(2) NOT NULL DEFAULT 0, ".
+    "`account_usage` int(11) NOT NULL DEFAULT 0, ".
+    "`account_last_operation` TEXT DEFAULT NULL, ".
+    "`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
+    "`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
+    "PRIMARY KEY (`account_id`) ".
+    ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+
+    const TABLE_SETTINGS_CREATE = "";
 
     private $context = null;
 
@@ -44,7 +52,7 @@ class MysqlHelper
 
         } else {
             $this->context->set_charset("utf8");
-            $this->executeQuery(self::TABLE_USERS_CREATE);
+
             //mysqli_set_charset($this->context, "utf8");
             return true;
         }
@@ -52,6 +60,8 @@ class MysqlHelper
 
     public static function getNewInstance(){
         $instance = new self(DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
+        $instance->executeQuery(self::TABLE_USERS_CREATE);
+        $instance->executeQuery(self::TABLE_ACCOUNTS_CREATE);
         return $instance;
     }
 
@@ -188,7 +198,7 @@ class MysqlHelper
 
         if ($data) {
 
-            $data = mysqli_fetch_assoc($data);
+            $data = !is_bool($data) ? mysqli_fetch_assoc($data) : $data;
             //ApplicationHelper::debug("query = ".$query." data = ".var_export($data, true));
             $result = true;
 

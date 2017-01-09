@@ -160,4 +160,9 @@ class ApplicationHelper
         }
         return $result;
     }
+
+    public static function getRandomNumber($max, $min = 0){
+        $num = mt_rand($min, $max);
+        return $num;
+    }
 }

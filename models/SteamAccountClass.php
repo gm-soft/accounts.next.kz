@@ -45,6 +45,20 @@ class SteamAccount
     public $vacBanned;
 
     /**
+     * Хранит количество "использований" на ПК
+     *
+     * @var int
+     */
+    public $usageTimes;
+
+    /**
+     * Хранит строку с последним действием с аккаунтом
+     *
+     * @var string
+     */
+    public $lastOperation;
+
+    /**
      * Время последнего обновления аккаунта
      * @var DateTime
      */
@@ -65,6 +79,9 @@ class SteamAccount
         $this->computerName = null;
         $this->vacBanned = false;
 
+        $this->usageTimes = 0;
+        $this->lastOperation = null;
+
         $this->updatedAt = new DateTime();
         $this->createdAt = new DateTime();
     }
@@ -73,8 +90,12 @@ class SteamAccount
         $this->id = $row["account_id"];
         $this->login = $row["account_login"];
         $this->password = $row["account_password"];
-        $this->available = $row["account_available"];
+        $this->available = filter_var($row["account_available"], FILTER_VALIDATE_BOOLEAN);
         $this->computerName = $row["account_computer_name"];
+        $this->vacBanned = filter_var($row["account_vac_banned"], FILTER_VALIDATE_BOOLEAN);
+
+        $this->usageTimes = intval($row["account_usage"]);
+        $this->lastOperation = $row["account_last_operation"];
 
         $this->updatedAt = DateTime::createFromFormat("Y-m-d H:m:S", $row["updated_at"]); // 2017-01-05 14:17:19
         $this->createdAt = DateTime::createFromFormat("Y-m-d H:m:S", $row["created_at"]);
@@ -96,36 +117,41 @@ class SteamAccount
         return $instance;
     }
 
-    public static function fromJson($jsonString){
-        
-    }
-
     /**
      * Создает аккаунт из логина и пароля с другими полями по дефолту
      *
      * @param $login
      * @param $password
+     * @param bool $vacBanned
      * @return SteamAccount
      */
-    public static function fromData($login, $password)
+    public static function fromData($login, $password, $vacBanned = false)
     {
         $instance = new self();
         $instance->login = $login;
         $instance->password = $password;
+        $instance->vacBanned = $vacBanned;
 
         return $instance;
     }
 
+    /**
+     * Возвращает JSON-формат некоторых полей для передачи клиенту
+     *
+     * @return string
+     */
     public function getJson(){
+        $banned = $this->vacBanned == true ? "true" : "false" ;
         $jsonString = "{".
             "Id : ".$this->id.",".
             "Login : \"".$this->login."\",".
             "Password : \"".$this->password."\",".
             "Available : ".$this->available.",".
             "ComputerName : \"".$this->computerName."\",".
-            "VacBanned : ".$this->vacBanned.",".
+            "VacBanned : ".$banned."".
             "}";
         return $jsonString;
     }
+
 
 }
