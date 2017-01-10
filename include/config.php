@@ -1,4 +1,5 @@
 <?php
+session_start();
 require $_SERVER["DOCUMENT_ROOT"]."/include/constants.php";
 // models
 require $_SERVER["DOCUMENT_ROOT"]."/models/ConfigClass.php";

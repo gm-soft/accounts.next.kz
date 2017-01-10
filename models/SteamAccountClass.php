@@ -97,8 +97,8 @@ class SteamAccount
         $this->usageTimes = intval($row["account_usage"]);
         $this->lastOperation = $row["account_last_operation"];
 
-        $this->updatedAt = DateTime::createFromFormat("Y-m-d H:m:S", $row["updated_at"]); // 2017-01-05 14:17:19
-        $this->createdAt = DateTime::createFromFormat("Y-m-d H:m:S", $row["created_at"]);
+        $this->updatedAt = DateTime::createFromFormat("Y-m-d H:i:s", $row["updated_at"]); // 2017-01-05 14:17:19
+        $this->createdAt = DateTime::createFromFormat("Y-m-d H:i:s", $row["created_at"]);
 
         // $this->updatedAt->setTimezone(new DateTimeZone('Asia/Almaty'));
         // $this->createdAt->setTimezone(new DateTimeZone('Asia/Almaty'));
@@ -151,6 +151,29 @@ class SteamAccount
             "VacBanned : ".$banned."".
             "}";
         return $jsonString;
+    }
+
+    /**
+     * Возвращает массив с данными для заполнения формы
+     *
+     * @return array
+     */
+    public function getAsFormData(){
+        $createdAt = date("Y-m-d H:i:s", $this->createdAt->getTimestamp());
+        $updatedAt = date("Y-m-d H:i:s", $this->updatedAt->getTimestamp());
+
+        $available = $this->available == true ? "true" : "false";
+        $vacBanned = $this->vacBanned == true ? "true" : "false";
+
+        $formData = [
+            "account_id" => $this->id,
+            "account_login" => $this->login,
+            "account_password" => $this->password,
+            "account_available" => $available,
+            "account_vac_banned" => $vacBanned,
+            "account_computer_name" => $this->computerName
+        ];
+        return $formData;
     }
 
 

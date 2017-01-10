@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	//session_start();
 	require_once $_SERVER["DOCUMENT_ROOT"]."/include/config.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
 

@@ -116,11 +116,6 @@ class User
         return $this->permission >= $requiredLevel;
     }
 
-    public static function ClearInputData($requestVar){
-        $result = trim(htmlspecialchars(stripslashes($requestVar)));
-        return $result;
-    }
-
 
 
 

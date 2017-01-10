@@ -21,7 +21,8 @@ class MysqlHelper
     "`user_hash` varchar(32) NOT NULL, ".
     "`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
     "`user_permission` int(10) unsigned NOT NULL default '1', ".
-    "PRIMARY KEY (`user_id`) ".
+    "PRIMARY KEY (`user_id`), ".
+    "UNIQUE (`user_login`)".
     ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
     const TABLE_ACCOUNTS_CREATE = "CREATE TABLE IF NOT EXISTS `".self::TABLE_ACCOUNTS."` (".
@@ -29,13 +30,14 @@ class MysqlHelper
     "`account_login` varchar(30) NOT NULL, ".
     "`account_password` varchar(32) NOT NULL, ".
     "`account_available` int(2) NOT NULL DEFAULT 1, ".
-    "`account_computer_name` varchar(32), ".
+    "`account_computer_name` TEXT DEFAULT NULL, ".
     "`account_vac_banned` int(2) NOT NULL DEFAULT 0, ".
     "`account_usage` int(11) NOT NULL DEFAULT 0, ".
     "`account_last_operation` TEXT DEFAULT NULL, ".
     "`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
     "`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
-    "PRIMARY KEY (`account_id`) ".
+    "PRIMARY KEY (`account_id`), ".
+    "UNIQUE (`account_login`)".
     ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
 
     const TABLE_SETTINGS_CREATE = "";
@@ -159,11 +161,120 @@ class MysqlHelper
         return $this->deleteInstance($searchable, $field, $tableName);
     }
 
+
+    /**
+     * Возвращает массив всех стим-аккаунтов
+     *
+     * @param bool $withPagination
+     * @param int $startFrom
+     * @param int $limit
+     * @return SteamAccount[] |null
+     */
+    public function getSteamAccounts($withPagination = false, $startFrom = 0, $limit = 50){
+        $query = "select * from ".self::TABLE_ACCOUNTS;
+        if ($withPagination == true){
+            $query .= " LIMIT $startFrom, $limit";
+        }
+
+        $query_result = $this->selectData($query);
+        if ($query_result["result"] == true) {
+            $clients = array();
+            foreach ($query_result["data"] as $key => $value) {
+                //$client = new Client();
+
+                $client = SteamAccount::fromDatabase($value);
+                array_push($clients, $client);
+            }
+            $query_result = $clients;
+        }
+
+        return $query_result;
+    }
+
+
+    /**
+     * Добавляет новый аккаунт в БД
+     *
+     * @param $instance SteamAccount
+     * @return array("result" => true/false, "data" => id)|null
+     */
+    public function addSteamAccount($instance){
+        $query = "insert into `".self::TABLE_ACCOUNTS."` (`account_login`, `account_password` ) values (".
+            "'".$instance->login."', ".
+            "'".$instance->password."' ".
+            ")";
+        $query_result = $this->executeQuery($query);
+        if ($query_result["result"] != true) {
+            return $query_result;
+        }
+
+        $query_result["data"] = mysqli_insert_id($this->context);;
+        //$id = mysqli_insert_id($this->context);
+        return $query_result;
+    }
+
+    /**
+     * Обновляет запись аккаунта в БД
+     *
+     * @param $instance SteamAccount
+     * @return array("result" => true/false, "data" => id)
+     */
+    public function updateSteamAccount($instance){
+        $createDate = date("Y-m-d H:i:s", $instance->createdAt->getTimestamp());
+        $updateDate = date("Y-m-d H:i:s", $instance->updatedAt->getTimestamp());
+
+        $query = "UPDATE `".self::TABLE_ACCOUNTS."` SET ".
+            "`account_login`='".$instance->login."', ".
+            "`account_password`='".$instance->password."', ".
+            "`account_available`=".$instance->available.", ".
+            "`account_computer_name`='".$instance->computerName."',".
+            "`account_vac_banned`=".$instance->vacBanned.", ".
+            "`account_usage`=".$instance->usageTimes.", ".
+            "`account_last_operation`='".$instance->lastOperation."'', ".
+            "`created_at`=".$createDate.", ".
+            "`updated_at`=".$updateDate." ".
+            " where account_id=".$instance->id;
+        $query_result = $this->executeQuery($query);
+
+        if ($query_result["result"] != true) {
+            return $query_result;
+        }
+        //$query_result["data"] = mysqli_insert_id($this->context);;
+        //$id = mysqli_insert_id($this->context);
+        return $query_result;
+    }
+
+    /**
+     * Удаляет аккаунт
+     *
+     * @param $instance SteamAccount
+     * @return array("result" => true/false, "data" => id)
+     */
+    public function deleteAccount($instance){
+        return $this->deleteInstance($instance->id, "account_id", self::TABLE_ACCOUNTS);
+    }
+
+    /**
+     * Возвращает аккаунт по полю поиска
+     *
+     * @param $searchable - искомое значение
+     * @param string $field - поле бд для поиска
+     * @return null|SteamAccount
+     */
+    public function getSteamAccount($searchable, $field = "account_id"){
+        $query = "select * from ".self::TABLE_ACCOUNTS." where ".$field."='".$searchable."'";
+        $query_result = $this->executeQuery($query);
+        if ($query_result["result"] == true && !is_null($query_result["data"])) {
+            $instance = SteamAccount::fromDatabase($query_result["data"]);
+            return $instance;
+        }
+        return null;
+    }
+
     private function deleteInstance($searchable, $field, $tableName){
         $query = "delete from ".$tableName." where ".$field."='".$searchable."'";
         return $this->executeQuery($query);
     }
-
 
 
 
@@ -191,6 +302,12 @@ class MysqlHelper
             "data" => $data);
     }
 
+    /**
+     * Выполняет SQL запрос
+     *
+     * @param $query
+     * @return array("result" => true/false, "data" => array())|null
+     */
     public function executeQuery($query) {
 
         if (is_null($this->context )) return null;

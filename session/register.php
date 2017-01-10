@@ -1,17 +1,15 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 //---------------------------------------------
-if(!isset($_SESSION)) session_start();
-
 
 
 $performed = isset($_POST["performed"]) ? $_POST["performed"] : false;
 
 if ($performed == true) {
     $err = array();
-    $login = User::ClearInputData($_POST["login"]);
-    $password = User::ClearInputData($_POST["password"]);
-    $password_conf = User::ClearInputData($_POST["password_confirm"]);
+    $login = ApplicationHelper::ClearInputData($_POST["login"]);
+    $password = ApplicationHelper::ClearInputData($_POST["password"]);
+    $password_conf = ApplicationHelper::ClearInputData($_POST["password_confirm"]);
 
     //if (preg_match("/^[a-zA-Z0-9]+$/", $login)) $err[] = "Логин может состоять только из букв английского алфавита и цифр";
     if ($password != $password_conf) $err[] = "Введенные пароли не совпадают";

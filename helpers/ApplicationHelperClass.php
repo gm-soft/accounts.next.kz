@@ -153,6 +153,12 @@ class ApplicationHelper
         return NULL;
     }
 
+    /**
+     * Переворачивает массив задом-наперед
+     *
+     * @param $array
+     * @return array
+     */
     public static function reverseArray($array) {
         $result = array();
         for($i = count($array) - 1; $i >= 0;$i--) {
@@ -164,5 +170,16 @@ class ApplicationHelper
     public static function getRandomNumber($max, $min = 0){
         $num = mt_rand($min, $max);
         return $num;
+    }
+
+    /**
+     * Форматирует и очищает от спец-символов входные данные, которые вводятся в поля форм
+     *
+     * @param $requestVar
+     * @return string
+     */
+    public static function ClearInputData($requestVar){
+        $result = trim(htmlspecialchars(stripslashes($requestVar)));
+        return $result;
     }
 }

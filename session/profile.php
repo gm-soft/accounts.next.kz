@@ -1,7 +1,6 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 //---------------------------------------------
-if(!isset($_SESSION)) session_start();
 
 if (!isset($_COOKIE["hash"]) || $_COOKIE["hash"] == "") {
     $_SESSION["error"] = array("Вы должны быть авторизованы на сайте");
