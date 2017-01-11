@@ -116,6 +116,22 @@ class User
         return $this->permission >= $requiredLevel;
     }
 
+    /**
+     * Возвращает массив с данными для заполнения формы
+     *
+     * @return array
+     */
+    public function getAsFormData(){
+
+        $formData = [
+            "user_id" => $this->id,
+            "user_login" => $this->login,
+            "user_password" => $this->password,
+            "user_permission" => $this->permission,
+        ];
+        return $formData;
+    }
+
 
 
 

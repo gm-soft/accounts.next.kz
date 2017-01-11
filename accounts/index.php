@@ -69,11 +69,11 @@ $accounts = $mysql->getSteamAccounts();
                 </div>
 
                 <div id="outputDiv">
-                    <table class="table table-striped">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>id</th>
+                            <th>ID</th>
                             <th>Логин (login)</th>
                             <th>Доступность для клиентов (available)</th>
                             <th>Статус vac-бана (vac_banned)</th>
@@ -118,28 +118,32 @@ $accounts = $mysql->getSteamAccounts();
             SearchByField(value);
         });
 
-        function LoadListOfClients(clients){
-            var content = "<table class='table table-striped'>" +
+        function LoadList(instances){
+            var content = "<table class='table table-hover'>" +
                 "<thead>" +
                 "<tr>" +
                 "<th>#</th>" +
-                "<th>HABB ID</th>" +
-                "<th>Полное имя</th>" +
-                "<th>Телефон</th>" +
-                "<th>Email</th>" +
+                "<th>ID</th>" +
+                "<th>Логин (login)</th>" +
+                "<th>Доступность для клиентов (available)</th>" +
+                "<th>Статус vac-бана (vac_banned)</th>" +
                 "</tr>" +
                 "</thead>";
 
-            if (clients != null && clients.length > 0){
+            if (instances != null && instances.length > 0){
                 content += "<tbody>";
-                for (var i = 0; i < clients.length; i++){
-                    var item = clients[i];
+                for (var i = 0; i < instances.length; i++){
+                    var item = instances[i];
+
+                    var available = item["available"] == true ? "Доступен" : "Занят";
+                    var vacBanned = item["vacBanned"] == true ? "Забанен" : "Без бана";
+
                     content += "<tr>" +
                         "<th>"+(i+1)+"</th>" +
                         "<td>"+item["id"]+"</td>" +
-                        "<td><a href='../clients/client.php?id="+item["id"]+"'>"+item["name"]+" "+item["last_name"]+"</a></td>" +
-                        "<td>"+item["phone"]+"</td>" +
-                        "<td>"+item["email"]+"</td>" +
+                        "<td><a href='../accounts/view.php?id="+item["id"]+"'>"+item["login"]+"</a></td>" +
+                        "<td>"+ available+"</td>" +
+                        "<td>"+vacBanned+"</td>" +
                         "</tr>";
                 }
                 content += "</tbody>";
@@ -152,9 +156,9 @@ $accounts = $mysql->getSteamAccounts();
         function SearchByField(value){
             searchBtn.prop('disabled', true);
             searchBtn.addClass('disabled');
-            var url = "http://newb24.next.kz/rest/ajax.responses.php";
+            var url = "http://accounts.next.kz/rest/accounts.php";
             var prms = {
-                "action" : "client.get",
+                "action" : "account.get",
                 "value" : value
 
             };
@@ -166,10 +170,10 @@ $accounts = $mysql->getSteamAccounts();
             request.done(function (response, textStatus){
                 console.log(response);
                 if (response["result"] == false) {
-                    LoadListOfClients(null);
+                    LoadList(null);
                 } else {
-                    var clients = [response["result"]];
-                    LoadListOfClients(clients);
+                    var instances = [response["result"]];
+                    LoadList(instances);
                 }
 
             });

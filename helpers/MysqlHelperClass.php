@@ -90,6 +90,38 @@ class MysqlHelper
         return User::fromDatabase($data["data"]);
     }
 
+
+    /**
+     * Возвращает список пользователей системы
+     *
+     * @param bool $withPagination
+     * @param int $startFrom
+     * @param int $limit
+     * @return User[]|null
+     */
+    public function getUsers($withPagination = false, $startFrom = 0, $limit = 50){
+        $query = "select * from ".self::TABLE_USERS;
+        if ($withPagination == true){
+            $query .= " LIMIT $startFrom, $limit";
+        }
+
+        $query_result = $this->selectData($query);
+        if ($query_result["result"] == true) {
+            $instances = array();
+            foreach ($query_result["data"] as $key => $value) {
+                //$client = new Client();
+
+                $instance = User::fromDatabase($value);
+                array_push($instances, $instance);
+            }
+            $query_result = $instances;
+        }
+
+        return $query_result;
+    }
+
+
+
     /**
      * Функция добавляет нового пользователя в систему. Возвращает id последней добавленной записи
      *
@@ -101,8 +133,8 @@ class MysqlHelper
      */
     public function addUser($user){
 
-        $query = "insert into `".self::TABLE_USERS."` (`user_login`, `user_password`, `user_hash`) values (".
-            "'".$user->login."', '".$user->password."', '".$user->hash."' )";
+        $query = "insert into `".self::TABLE_USERS."` (`user_login`, `user_password`, `user_hash`, `user_permission`) values (".
+            "'".$user->login."', '".$user->password."', '".$user->hash."', ".$user->permission." )";
         $query_result = $this->executeQuery($query);
         if ($query_result["result"] != true) {
             return $query_result;
@@ -178,14 +210,50 @@ class MysqlHelper
 
         $query_result = $this->selectData($query);
         if ($query_result["result"] == true) {
-            $clients = array();
+            $instances = array();
             foreach ($query_result["data"] as $key => $value) {
                 //$client = new Client();
 
-                $client = SteamAccount::fromDatabase($value);
-                array_push($clients, $client);
+                $instance = SteamAccount::fromDatabase($value);
+                array_push($instances, $instance);
             }
-            $query_result = $clients;
+            $query_result = $instances;
+        }
+
+        return $query_result;
+    }
+
+    /**
+     * Возвращает массив всех стим-аккаунтов с фильтрацией
+     *
+     * @param array $filterConditions - массив условий вида "id = 1"
+     * @param string $condition - соединитель условий: AND/OR
+     * @return null|SteamAccount[]
+     */
+    public function filterSteamAccounts(array $filterConditions, $condition = "and"){
+        $query = "select * from ".self::TABLE_ACCOUNTS." where ";
+
+        for ($i = 0; $i < count($filterConditions); $i++){
+            $field = $filterConditions[$i];
+
+            $query .= $field;
+            if ($i == count($filterConditions) - 1) {
+                $query .= " ".$condition. " ";
+            }
+
+
+        }
+
+        $query_result = $this->selectData($query);
+        if ($query_result["result"] == true) {
+            $instances = array();
+            foreach ($query_result["data"] as $key => $value) {
+                //$client = new Client();
+
+                $instance = SteamAccount::fromDatabase($value);
+                array_push($instances, $instance);
+            }
+            $query_result = $instances;
         }
 
         return $query_result;

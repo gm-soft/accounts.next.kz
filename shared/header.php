@@ -1,3 +1,9 @@
+
+<?php
+$pageTitle = isset($pageTitle) ? $pageTitle : "Next.Accounts";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Next.Accounts</title>
+    <title><?= $pageTitle ?></title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
@@ -27,6 +33,22 @@
           <div class="collapse navbar-toggleable-md" id="navbarResponsive">
 
               <ul class="nav navbar-nav">
+
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="logs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Записи аккаунтов</a>
+                      <div class="dropdown-menu" aria-labelledby="logs">
+                          <a class="dropdown-item" href="../accounts/">База аккаунтов</a>
+                          <a class="dropdown-item" href="../accounts/create.php">Добавить новый</a>
+                      </div>
+                  </li>
+
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="logs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Админка</a>
+                      <div class="dropdown-menu" aria-labelledby="logs">
+                          <a class="dropdown-item" href="../users/">Пользователи системы</a>
+                          <a class="dropdown-item" href="../phpmyadmin/">phpMyAdmin</a>
+                      </div>
+                  </li>
 
                   <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="logs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Логи</a>

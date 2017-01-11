@@ -4,19 +4,10 @@ require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 
 if (!isset($_COOKIE["hash"])){
     $_SESSION["errors"] = array("Чтобы создать новую запись, вы должны быть залогинены");
-    ApplicationHelper::redirect("../accounts/");
+    ApplicationHelper::redirect("../users/");
 }
 
 $mysql = MysqlHelper::getNewInstance();
-$currentUser = CookieHelper::GetCurrentUser($mysql);
-
-
-
-if (is_null($currentUser) ){
-    $_SESSION["errors"] = array("Авторизационный токен не найден. Авторизуйтесь снова");
-    CookieHelper::ClearCookies();
-    ApplicationHelper::redirect("../accounts/");
-}
 
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 
@@ -28,20 +19,20 @@ switch ($actionPerformed){
         ?>
         <div class="container">
             <div class="page-header">
-                <h1>Создание новой записи об аккаунте</h1>
+                <h1>Создание нового пользователя</h1>
             </div>
-            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/accounts/formFields.php"; ?>
+            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/users/formFields.php"; ?>
         </div>
         <?php
         break;
 
     default:
 
-        $login = ApplicationHelper::ClearInputData($_REQUEST["accountLogin"]);
-        $password = ApplicationHelper::ClearInputData($_REQUEST["accountPassword"]);
+        $login = ApplicationHelper::ClearInputData($_REQUEST["userLogin"]);
+        $password = ApplicationHelper::ClearInputData($_REQUEST["userPassword"]);
 
-        $newInstance = SteamAccount::fromData($login, $password);
-        $result = $mysql->addSteamAccount($newInstance);
+        $newInstance = User::fromUserData($login, $password);
+        $result = $mysql->addUser($newInstance);
         if ($result["result"] == true){
             $newInstance->id = $result["data"];
         }
@@ -51,7 +42,7 @@ switch ($actionPerformed){
 
 
         require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
-        echo "<pre class='container'>".var_export($newInstance, true)."</pre>";
+        echo "<pre class='container'>Пользователь создан: <br>".var_export($newInstance, true)."</pre>";
         break;
 }
 

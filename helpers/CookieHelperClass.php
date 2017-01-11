@@ -37,4 +37,19 @@ class CookieHelper
         setcookie("expired", $expired, $expired, "/");
         return true;
     }
+
+    /**
+     * Возвращает текущего залогиненного пользователя
+     *
+     * @param MysqlHelper|null $mysql
+     * @return null|User
+     */
+    public static function GetCurrentUser($mysql = null){
+        $mysql = is_null($mysql) ? MysqlHelper::getNewInstance() : $mysql;
+        $hash = isset($_COOKIE["hash"]) ? $_COOKIE["hash"] : null;
+
+        if (is_null($hash)) return null;
+        $user = $mysql->getUser($hash, "user_hash");
+        return $user;
+    }
 }
