@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="centerCode">Пароль пользователя</label>
+            <label class="col-sm-2 col-form-label" for="centerCode">Индивидуальный код центра</label>
             <div class="col-sm-10">
                 <input type="text" id="centerCode" name="centerCode" class="form-control" required placeholder="Введите код центра (50)" maxlength="50" value="<?= $formData["center_code"] ?>">
             </div>
@@ -42,7 +42,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="accountCount">Кол-во взятых аккаунтов</label>
             <div class="col-sm-10">
-                <input type="number" min="0" step="1" id="accountCount" name="accountCount" class="form-control" required placeholder="Введите кол-во взятых аккаунтов" value="<?= $formData["center_count"] ?>">
+                <input type="number" min="0" step="1" id="accountCount" name="accountCount" class="form-control" placeholder="Кол-во взятых аккаунтов" value="<?= $formData["center_count"] ?>">
             </div>
         </div>
 

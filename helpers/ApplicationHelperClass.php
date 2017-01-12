@@ -173,6 +173,18 @@ class ApplicationHelper
     }
 
     /**
+     * Возвращает рандомный элемент массива
+     *
+     * @param $array array
+     * @return mixed
+     */
+    public static function getRandomItem($array){
+        $max = count($array) - 1;
+        $randomNumber = self::getRandomNumber($max);
+        return $array[$randomNumber];
+    }
+
+    /**
      * Форматирует и очищает от спец-символов входные данные, которые вводятся в поля форм
      *
      * @param $requestVar

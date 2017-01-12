@@ -152,13 +152,14 @@ class SteamAccount
      */
     public function getJson(){
         $banned = $this->vacBanned == true ? "true" : "false" ;
+        $available = $this->available == true ? "true" : "false" ;
         $jsonString = "{".
-            "Id : ".$this->id.",".
-            "Login : \"".$this->login."\",".
-            "Password : \"".$this->password."\",".
-            "Available : ".$this->available.",".
-            "ComputerName : \"".$this->computerName."\",".
-            "VacBanned : ".$banned."".
+            "\"Id\" : ".$this->id.",".
+            "\"Login\" : \"".$this->login."\", ".
+            "\"Password\" : \"".$this->password."\", ".
+            "\"Available\" : ".$available.",".
+            "\"ComputerName\" : \"".$this->computerName."\",".
+            "\"VacBanned\" : ".$banned."".
             "}";
         return $jsonString;
     }
@@ -183,6 +184,18 @@ class SteamAccount
             "account_center" => $this->center
         ];
         return $formData;
+    }
+
+
+    /**
+     * Функция возвращает случайный аккаунт из массива аккаунтов
+     *
+     * @param SteamAccount[] $accountArray
+     * @return SteamAccount
+     */
+    public static function getRandomAccount(array $accountArray){
+        $account = ApplicationHelper::getRandomItem($accountArray);
+        return $account;
     }
 
 

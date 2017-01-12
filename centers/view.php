@@ -41,7 +41,7 @@ $instance = $mysql->getCenter($id, "center_id");
         <?php require_once $_SERVER["DOCUMENT_ROOT"] . "/centers/viewFields.php"; ?>
 
         <div class="float-sm-left">
-            <a href="../users/"  class="btn btn-secondary"><i class="fa fa-chevron-circle-left"  aria-hidden="true"></i> В список</a>
+            <a href="../centers/"  class="btn btn-secondary"><i class="fa fa-chevron-circle-left"  aria-hidden="true"></i> В список</a>
         </div>
         <div class="float-sm-right">
 

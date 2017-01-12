@@ -70,6 +70,7 @@ switch ($actionPerformed){
         $instance->computerName = $computerName;
         $instance->center = $centerName;
 
+        $instance->lastOperation = "Аккаунт обновлен пользователем ".$currentUser->login;
         $updateResult = $mysql->updateSteamAccount($instance);
 
         if ($updateResult["result"] == false){

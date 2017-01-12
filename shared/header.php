@@ -26,7 +26,10 @@ $pageTitle = isset($pageTitle) ? $pageTitle : "Next.Accounts";
 
   <nav class="navbar navbar-dark">
       <div class="container">
-          <a class="navbar-brand" href="../"><b>NEXT.Accounts</b></a>
+          <a class="navbar-brand" href="../">
+              <i class="fa fa-steam-square fa-lg" aria-hidden="true"></i>
+              NEXT.Accounts
+          </a>
 
           <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                   aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>

@@ -352,13 +352,12 @@ class MysqlHelper
             $field = $filterConditions[$i];
 
             $query .= $field;
-            if ($i == count($filterConditions) - 1) {
+            if ($i != count($filterConditions) - 1) {
                 $query .= " ".$condition. " ";
             }
 
 
         }
-
         $query_result = $this->selectData($query);
         if ($query_result["result"] == true) {
             $instances = array();

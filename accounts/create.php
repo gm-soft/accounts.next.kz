@@ -41,6 +41,8 @@ switch ($actionPerformed){
         $password = ApplicationHelper::ClearInputData($_REQUEST["accountPassword"]);
 
         $newInstance = SteamAccount::fromData($login, $password);
+        $newInstance->lastOperation = "Аккаунт создан пользователем ".$currentUser->login;
+
         $result = $mysql->addSteamAccount($newInstance);
         if ($result["result"] == true){
             $newInstance->id = $result["data"];
