@@ -15,21 +15,25 @@ class User
     public $id;
 
     /**
+     * Логин пользователя
      * @var string
      */
     public $login;
 
     /**
+     * Зашифрованный пароль пользователя
      * @var string
      */
     public $password;
 
     /**
+     * Уникальный зашифрованный хэш пользователя, который кладется в Куки
      * @var string
      */
     public $hash;
 
     /**
+     * Уровень прав доступа пользователя
      * @var int
      */
     public $permission;
@@ -79,6 +83,10 @@ class User
 
     public function updateHash(){
         $this->hash = md5(self::generateCode(10));
+    }
+
+    public function resetPassword($newPassword){
+        $this->password = md5(md5($newPassword));
     }
 
     /**

@@ -34,9 +34,15 @@ class SteamAccount
 
     /**
      * Имя компьютера, взявшего аккаунт
-     * @var string
+     * @var string|null
      */
     public $computerName;
+
+    /**
+     * Название центра, который взял этот аккаунт
+     * @var string|null
+     */
+    public $center;
 
     /**
      * Статус VAC-бана аккаунта. true, если забанен, и false - если нет
@@ -54,7 +60,7 @@ class SteamAccount
     /**
      * Хранит строку с последним действием с аккаунтом
      *
-     * @var string
+     * @var string|null
      */
     public $lastOperation;
 
@@ -77,6 +83,8 @@ class SteamAccount
         $this->password = null;
         $this->available = true;
         $this->computerName = null;
+        $this->center = null;
+
         $this->vacBanned = false;
 
         $this->usageTimes = 0;
@@ -92,6 +100,8 @@ class SteamAccount
         $this->password = $row["account_password"];
         $this->available = filter_var($row["account_available"], FILTER_VALIDATE_BOOLEAN);
         $this->computerName = $row["account_computer_name"];
+        $this->center = $row["account_center"];
+
         $this->vacBanned = filter_var($row["account_vac_banned"], FILTER_VALIDATE_BOOLEAN);
 
         $this->usageTimes = intval($row["account_usage"]);
@@ -159,8 +169,6 @@ class SteamAccount
      * @return array
      */
     public function getAsFormData(){
-        $createdAt = date("Y-m-d H:i:s", $this->createdAt->getTimestamp());
-        $updatedAt = date("Y-m-d H:i:s", $this->updatedAt->getTimestamp());
 
         $available = $this->available == true ? "true" : "false";
         $vacBanned = $this->vacBanned == true ? "true" : "false";
@@ -171,7 +179,8 @@ class SteamAccount
             "account_password" => $this->password,
             "account_available" => $available,
             "account_vac_banned" => $vacBanned,
-            "account_computer_name" => $this->computerName
+            "account_computer_name" => $this->computerName,
+            "account_center" => $this->center
         ];
         return $formData;
     }

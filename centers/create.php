@@ -4,7 +4,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 
 if (!isset($_COOKIE["hash"])){
     $_SESSION["errors"] = array("Чтобы создать новую запись, вы должны быть залогинены");
-    ApplicationHelper::redirect("../users/");
+    ApplicationHelper::redirect("../centers/");
 }
 
 $mysql = MysqlHelper::getNewInstance();
@@ -14,7 +14,7 @@ $currentUser = CookieHelper::GetCurrentUser($mysql);
 if (is_null($currentUser) ){
     $_SESSION["errors"] = array("Авторизационный токен не найден. Авторизуйтесь снова");
     CookieHelper::ClearCookies();
-    ApplicationHelper::redirect("../users/");
+    ApplicationHelper::redirect("../centers/");
 }
 
 $viewPermission = $currentUser->checkPermission(2);
@@ -23,7 +23,7 @@ $godPermission = $currentUser->checkPermission(4);
 
 if ($viewPermission == false){
     $_SESSION["errors"] = array("У Вас недостаточно прав для этого действия");
-    ApplicationHelper::redirect("../users/");
+    ApplicationHelper::redirect("../centers/");
 }
 
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
@@ -37,28 +37,30 @@ switch ($actionPerformed){
         ?>
         <div class="container">
             <div class="mt-2">
-                <h1>Создание нового пользователя</h1>
+                <h1>Создание нового центра (объекта)</h1>
             </div>
-            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/users/formFields.php"; ?>
+            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/centers/formFields.php"; ?>
         </div>
         <?php
         break;
 
     case "dataInput":
-        $login = ApplicationHelper::ClearInputData($_REQUEST["userLogin"]);
-        $password = ApplicationHelper::ClearInputData($_REQUEST["userPassword"]);
+        $name = ApplicationHelper::ClearInputData($_REQUEST["centerName"]);
+        $code = ApplicationHelper::ClearInputData($_REQUEST["centerCode"]);
+        $limit = ApplicationHelper::ClearInputData($_REQUEST["centerLimit"]);
 
-        $newInstance = User::fromUserData($login, $password);
-        $result = $mysql->addUser($newInstance);
+        $newInstance = Center::fromData($name, $code, $limit);
+        $result = $mysql->addCenter($newInstance);
         if ($result["result"] == true){
+
             $newInstance->id = $result["data"];
-            $_SESSION["success"] = array("Новый пользователь ID".$newInstance->id." создан");
-            $url = "../users/view.php?id=".$newInstance->id;
+            $_SESSION["success"] = array("Новый центр ID".$newInstance->id." создан");
+            $url = "../centers/view.php?id=".$newInstance->id;
         }
         else {
-            $_SESSION["errors"] = array("Пользователь не был создан<br>".$result["data"]);
+            $_SESSION["errors"] = array("Объект не был создан<br>".$result["data"]);
             $newInstance = $result["data"];
-            $url = "../users/";
+            $url = "../centers/";
         }
         ApplicationHelper::redirect($url);
         break;
@@ -67,6 +69,7 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
         echo "<div class='container'>Неизвестное действие</div>";
         echo "<pre>".var_export($_REQUEST, true)."</pre>";
+
         break;
 }
 

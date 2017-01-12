@@ -22,6 +22,7 @@ if (is_null($currentUser) ){
 
 
 $instance = $mysql->getSteamAccount($id);
+$pageTitle = "Удаление сущности NEXT.Accounts";
 
 if (is_null($instance)) {
     $_SESSION["errors"] = array("Клиент с ID".$id." не найден в базе данных");
@@ -32,7 +33,7 @@ if (!isset($_POST["confirmed"])){
     require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
     ?>
     <div class="container">
-        <div class="page-header">
+        <div class="mt-2">
             <h1>Удаление записи <?= $instance->login ?> (<?= $instance->id ?>)</h1>
         </div>
         <?php require_once $_SERVER["DOCUMENT_ROOT"] . "/accounts/viewFields.php"; ?>

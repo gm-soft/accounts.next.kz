@@ -1,17 +1,21 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"]."/include/config.php";
 //------------------------------------------------------
-require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
+
 $mysql = MysqlHelper::getNewInstance();
 
 $startFrom = isset($_GET["p"]) ? intval($_GET["p"]) : 0;
 $rowLimit = isset($_GET["limit"]) ? intval($_GET["limit"]) : 50;
 
 $accounts = $mysql->getSteamAccounts();
-
+$pageTitle = "Список сущностей NEXT.Accounts";
+require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
 ?>
     <div class="container">
-        <h1>Список аккаунтов</h1>
+        <div class="mt-2">
+            <h1>Список аккаунтов</h1>
+        </div>
+        
 
         <div class="row">
             <div id="pageNavigation" class="col-sm-3">

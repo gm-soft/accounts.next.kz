@@ -2,7 +2,7 @@
 session_start();
 require $_SERVER["DOCUMENT_ROOT"]."/include/constants.php";
 // models
-require $_SERVER["DOCUMENT_ROOT"]."/models/ConfigClass.php";
+require $_SERVER["DOCUMENT_ROOT"]."/models/CenterClass.php";
 require $_SERVER["DOCUMENT_ROOT"]."/models/ApiMessageClass.php";
 require $_SERVER["DOCUMENT_ROOT"]."/models/UserClass.php";
 require $_SERVER["DOCUMENT_ROOT"]."/models/SteamAccountClass.php";

@@ -19,6 +19,7 @@ if (is_null($currentUser) ){
 }
 
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
+$pageTitle = "Создание сущности NEXT.Accounts";
 
 switch ($actionPerformed){
     case "initiated":
@@ -27,7 +28,7 @@ switch ($actionPerformed){
 
         ?>
         <div class="container">
-            <div class="page-header">
+            <div class="mt-2">
                 <h1>Создание новой записи об аккаунте</h1>
             </div>
             <?php require_once $_SERVER["DOCUMENT_ROOT"]."/accounts/formFields.php"; ?>
@@ -35,8 +36,7 @@ switch ($actionPerformed){
         <?php
         break;
 
-    default:
-
+    case "dataInput":
         $login = ApplicationHelper::ClearInputData($_REQUEST["accountLogin"]);
         $password = ApplicationHelper::ClearInputData($_REQUEST["accountPassword"]);
 
@@ -44,14 +44,22 @@ switch ($actionPerformed){
         $result = $mysql->addSteamAccount($newInstance);
         if ($result["result"] == true){
             $newInstance->id = $result["data"];
+            $_SESSION["success"] = array("Новый аккаунт ID".$newInstance->id." создан");
+            $url = "../accounts/view.php?id=".$newInstance->id;
         }
         else {
+            $_SESSION["errors"] = array("Аккаунт не был создан<br>".$result["data"]);
             $newInstance = $result["data"];
+            $url = "../accounts/";
         }
+        ApplicationHelper::redirect($url);
+        break;
 
-
+    default:
         require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
-        echo "<pre class='container'>".var_export($newInstance, true)."</pre>";
+        echo "<div class='container'>Неизвестное действие</div>";
+        echo "<pre>".var_export($_REQUEST, true)."</pre>";
+
         break;
 }
 

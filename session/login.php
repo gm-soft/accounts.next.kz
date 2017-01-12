@@ -47,7 +47,11 @@ if ($performed == true){
     require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
     ?>
     <div class="container">
-        <h1>Авторизация на сайте</h1>
+
+        <div class="mt-2">
+            <h1>Авторизация на сайте</h1>
+        </div>
+        
         <form method="post" action="../session/login.php" class="form-horizontal">
             <input type="hidden" name="performed" value="true">
             <div class="form-group row">

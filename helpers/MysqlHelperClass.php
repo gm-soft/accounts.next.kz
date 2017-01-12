@@ -11,7 +11,8 @@ class MysqlHelper
     const DB_NAME = "accounts.next.kz";
     const TABLE_ACCOUNTS = "accounts";
     const TABLE_USERS = "users";
-    const TABLE_SETTINGS = "settings";
+    const TABLE_CENTERS = "centers";
+
     const DB_HOST = "localhost";
 
     const TABLE_USERS_CREATE = "CREATE TABLE IF NOT EXISTS `".self::TABLE_USERS."` (".
@@ -31,6 +32,7 @@ class MysqlHelper
     "`account_password` varchar(32) NOT NULL, ".
     "`account_available` int(2) NOT NULL DEFAULT 1, ".
     "`account_computer_name` TEXT DEFAULT NULL, ".
+    "`account_center` TEXT DEFAULT NULL, ".
     "`account_vac_banned` int(2) NOT NULL DEFAULT 0, ".
     "`account_usage` int(11) NOT NULL DEFAULT 0, ".
     "`account_last_operation` TEXT DEFAULT NULL, ".
@@ -40,7 +42,19 @@ class MysqlHelper
     "UNIQUE (`account_login`)".
     ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
 
-    const TABLE_SETTINGS_CREATE = "";
+    const TABLE_CENTERS_CREATE = "CREATE TABLE IF NOT EXISTS `".self::TABLE_CENTERS."` (".
+    "`center_id` int(11) unsigned NOT NULL auto_increment, ".
+    "`center_name` varchar(50) NOT NULL, ".
+    "`center_code` varchar(50) NOT NULL, ".
+    "`center_limit` int(10) NOT NULL DEFAULT 50, ".
+    "`center_count` int(10) NOT NULL DEFAULT 0, ".
+    "`center_description` TEXT DEFAULT NULL, ".
+    "`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
+    "`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP, ".
+    "PRIMARY KEY (`center_id`), ".
+    "UNIQUE (`center_code`)".
+    ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+
 
     private $context = null;
 
@@ -60,12 +74,119 @@ class MysqlHelper
         }
     }
 
+    /**
+     * Аналог синглтона, но создает новый объект вместо возврата уже существующего
+     *
+     * @return MysqlHelper
+     */
     public static function getNewInstance(){
         $instance = new self(DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
         $instance->executeQuery(self::TABLE_USERS_CREATE);
         $instance->executeQuery(self::TABLE_ACCOUNTS_CREATE);
+        $instance->executeQuery(self::TABLE_CENTERS_CREATE);
         return $instance;
     }
+
+    /**
+     * Возвращает отдельно взятый объект, искомый по определенному полю и значению. По дефолту ищется по полю кода
+     *
+     * @param mixed $searchable
+     * @param string $field
+     * @return Center|null
+     */
+    public function getCenter($searchable, $field = "center_code") {
+
+        $query = "select * from ".self::TABLE_CENTERS." where ".$field."='".$searchable."'";
+        $data = $this->executeQuery($query);
+
+        if (
+            $data["result"] != true ||
+            is_null($data["data"])
+        ) return null;
+
+        return Center::fromDatabase($data["data"]);
+    }
+
+    /**
+     * Возвращает список всех объектов в базе
+     *
+     * @return Center[]|null
+     */
+    public function getCenters(){
+        $query = "select * from ".self::TABLE_CENTERS;
+
+        $query_result = $this->selectData($query);
+        if ($query_result["result"] == true) {
+            $instances = array();
+            foreach ($query_result["data"] as $key => $value) {
+                //$client = new Client();
+
+                $instance = Center::fromDatabase($value);
+                array_push($instances, $instance);
+            }
+            $query_result = $instances;
+        }
+
+        return $query_result;
+    }
+
+    /**
+     * СОздает объект в базе. ВОзвращает массив, где "data" хранит id последнего добавленного объекта
+     *
+     * @param $instance Center
+     * @return array
+     */
+    public function addCenter($instance){
+
+        $query = "insert into `".self::TABLE_CENTERS."` (`center_name`, `center_code`, `center_limit`, `center_description`) values (".
+            "'".$instance->name."', '".$instance->code."', '".$instance->limit."', '".$instance->description."' )";
+        $query_result = $this->executeQuery($query);
+        if ($query_result["result"] != true) {
+            return $query_result;
+        }
+        $query_result["data"] = mysqli_insert_id($this->context);;
+        return $query_result;
+    }
+
+    /**
+     * Обновляет центр в базе
+     *
+     * @param $instance Center
+     * @return array
+     */
+    public function updateCenter($instance) {
+        $query = "update `".self::TABLE_CENTERS."` set ".
+            "`center_name`='".$instance->name."', ".
+            "`center_code`='".$instance->code."', ".
+            "`center_limit`=".$instance->limit.", ".
+            "`center_count`=".$instance->count.", ".
+            "`center_description`='".$instance->description."', ".
+            "`updated_at`=now()".
+            " where center_id = ".$instance->id;
+        $query_result = $this->executeQuery($query);
+
+        if ($query_result["result"] != true) {
+            return $query_result;
+        }
+        //$query_result["data"] = mysqli_insert_id($this->context);;
+        //$id = mysqli_insert_id($this->context);
+        return $query_result;
+    }
+
+    /**
+     * Удаляет центр из базы
+     *
+     * @param $instance Center
+     * @return array
+     */
+    public function deleteCenter($instance){
+        $searchable = $instance->id;
+        $field = "center_id";
+        $tableName = self::TABLE_CENTERS;
+        return $this->deleteInstance($searchable, $field, $tableName);
+    }
+
+
 
     /**
      * Функция возврата пользователя из базы данных по искомому значению.
@@ -73,7 +194,7 @@ class MysqlHelper
      * result равен true. Если пользователь был найден, то data будет содержать этот объект,
      * иначе null
      *
-     * @param $searchable - Искомое значение
+     * @param mixed $searchable - Искомое значение
      * @param string $field - названеи поля, по которому осуществлять поиск
      * @return User|null
      */
@@ -169,26 +290,20 @@ class MysqlHelper
             "`user_password`='".$user->password."', ".
             "`user_permission`='".$user->permission."', ".
             "`user_hash`='".$user->hash."'".
-            " where id=".$user->id;
+            " where user_id=".$user->id;
         $query_result = $this->executeQuery($query);
-
-        if ($query_result["result"] != true) {
-            return $query_result;
-        }
-        //$query_result["data"] = mysqli_insert_id($this->context);;
-        //$id = mysqli_insert_id($this->context);
         return $query_result;
     }
 
     /**
      * Удаляет пользователя из системы
      *
-     * @param $user
+     * @param $user User
      * @return array|null
      */
     public function deleteUser($user){
         $searchable = $user->id;
-        $field = "id";
+        $field = "user_id";
         $tableName = self::TABLE_USERS;
         return $this->deleteInstance($searchable, $field, $tableName);
     }
@@ -288,20 +403,24 @@ class MysqlHelper
      * @return array("result" => true/false, "data" => id)
      */
     public function updateSteamAccount($instance){
-        $createDate = date("Y-m-d H:i:s", $instance->createdAt->getTimestamp());
         $updateDate = date("Y-m-d H:i:s", $instance->updatedAt->getTimestamp());
+        $available = $instance->available == true ? 1 : 0;
+        $vacBanned = $instance->vacBanned == true ? 1 : 0;
 
         $query = "UPDATE `".self::TABLE_ACCOUNTS."` SET ".
-            "`account_login`='".$instance->login."', ".
-            "`account_password`='".$instance->password."', ".
-            "`account_available`=".$instance->available.", ".
-            "`account_computer_name`='".$instance->computerName."',".
-            "`account_vac_banned`=".$instance->vacBanned.", ".
-            "`account_usage`=".$instance->usageTimes.", ".
-            "`account_last_operation`='".$instance->lastOperation."'', ".
-            "`created_at`=".$createDate.", ".
-            "`updated_at`=".$updateDate." ".
+            "`account_login` = '".$instance->login."', ".
+            "`account_password` = '". $instance->password ."', ".
+            "`account_available` = ".$available.", ".
+            "`account_computer_name` = '".$instance->computerName."',".
+            "`account_center` = '".$instance->center."',".
+
+            "`account_vac_banned` = ".$vacBanned.", ".
+            "`account_usage` = ".$instance->usageTimes.", ".
+            "`account_last_operation` = '".$instance->lastOperation."', ".
+
+            "`updated_at`=now()".
             " where account_id=".$instance->id;
+
         $query_result = $this->executeQuery($query);
 
         if ($query_result["result"] != true) {
@@ -325,7 +444,7 @@ class MysqlHelper
     /**
      * Возвращает аккаунт по полю поиска
      *
-     * @param $searchable - искомое значение
+     * @param mixed $searchable - искомое значение
      * @param string $field - поле бд для поиска
      * @return null|SteamAccount
      */
@@ -389,6 +508,7 @@ class MysqlHelper
 
         } else {
             $data = mysqli_error($this->context);
+            ApplicationHelper::processError("Ошибка выполнения запроса: ".var_export($data, true));
             $result = false;
         }
         return array("result" => $result, "data" => $data);

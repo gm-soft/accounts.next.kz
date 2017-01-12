@@ -3,11 +3,11 @@
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 
 $id = isset($_REQUEST["id"]) && $_REQUEST["id"] != ""  ? $_REQUEST["id"] : null;
-if (is_null($id)) ApplicationHelper::redirect("../accounts/");
+if (is_null($id)) ApplicationHelper::redirect("../centers/");
 
 if (!isset($_COOKIE["hash"])){
     $_SESSION["errors"] = array("Чтобы редактировать запись, вы должны быть залогинены");
-    ApplicationHelper::redirect("../accounts/");
+    ApplicationHelper::redirect("../centers/");
 }
 
 $mysql = MysqlHelper::getNewInstance();
@@ -18,9 +18,17 @@ $currentUser = CookieHelper::GetCurrentUser($mysql);
 if (is_null($currentUser) ){
     $_SESSION["errors"] = array("Авторизационный токен не найден. Авторизуйтесь снова");
     CookieHelper::ClearCookies();
-    ApplicationHelper::redirect("../accounts/");
+    ApplicationHelper::redirect("../centers/");
 }
 
+$viewPermission = $currentUser->checkPermission(2);
+$setPermission = $currentUser->checkPermission(3);
+$godPermission = $currentUser->checkPermission(4);
+
+if ($viewPermission == false){
+    $_SESSION["errors"] = array("У Вас недостаточно прав для этого действия");
+    ApplicationHelper::redirect("../centers/");
+}
 
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 $pageTitle = "Редактирование сущности NEXT.Accounts";
@@ -28,11 +36,11 @@ $pageTitle = "Редактирование сущности NEXT.Accounts";
 switch ($actionPerformed){
     case "initiated":
 
-        $instance = $mysql->getSteamAccount($id);
+        $instance = $mysql->getCenter($id, "center_id");
 
         if (is_null($instance)) {
-            $_SESSION["errors"] = array("Клиент с ID".$id." не найден в базе данных");
-            ApplicationHelper::redirect("../accounts/");
+            $_SESSION["errors"] = array("Центр с ID".$id." не найден в базе данных");
+            ApplicationHelper::redirect("../centers/");
         }
 
         require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
@@ -42,51 +50,52 @@ switch ($actionPerformed){
         ?>
         <div class="container">
             <div class="mt-2">
-                <h1>Редактирование записи <?= $instance->login ?></h1>
+                <h1>Редактирование центра (объекта) <?= $instance->name ?></h1>
             </div>
-            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/accounts/formFields.php"; ?>
+            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/centers/formFields.php"; ?>
         </div>
         <?php
         break;
 
     case "dataInput":
 
+
         $id = $_REQUEST["id"];
-        $instance = $mysql->getSteamAccount($id);
+        $instance = $mysql->getCenter($id, "center_id");
 
-        $login = ApplicationHelper::ClearInputData($_REQUEST["accountLogin"]);
-        $password = ApplicationHelper::ClearInputData($_REQUEST["accountPassword"]);
-        $available = $_REQUEST["available"] == "true";
-        $vacBanned = $_REQUEST["vacBanned"] == "true";
-        $computerName = ApplicationHelper::ClearInputData($_REQUEST["computerName"]);
-        $centerName = ApplicationHelper::ClearInputData($_REQUEST["centerName"]);
-
+        $name = ApplicationHelper::ClearInputData($_REQUEST["centerName"]);
+        $code = ApplicationHelper::ClearInputData($_REQUEST["centerCode"]);
+        $limit = intval($_REQUEST["centerLimit"]);
+        $count = intval($_REQUEST["accountCount"]);
+        $description = ApplicationHelper::ClearInputData($_REQUEST["centerDescription"]);
 
 
-        $instance->login = $login;
-        $instance->password = $password;
-        $instance->available = $available;
-        $instance->vacBanned = $vacBanned;
-        $instance->computerName = $computerName;
-        $instance->center = $centerName;
 
-        $updateResult = $mysql->updateSteamAccount($instance);
+
+        $instance->name = $name;
+        $instance->code = $code;
+        $instance->limit = $limit;
+        $instance->count = $count;
+        $instance->description = $description;
+
+        $updateResult = $mysql->updateCenter($instance);
 
         if ($updateResult["result"] == false){
             $_SESSION["errors"] = ["Возникла ошибка при сохранении данных<br>".var_export($updateResult["data"], true)];
-            $url = "../accounts/edit.php?id=".$_REQUEST["id"];
+            $url = "../centers/edit.php?id=".$_REQUEST["id"];
         } else {
             $_SESSION["success"] = ["Данные успешно обновлены"];
-            $url = "../accounts/view.php?id=".$_REQUEST["id"];
+            $url = "../centers/view.php?id=".$_REQUEST["id"];
 
         }
         ApplicationHelper::redirect($url);
+
         break;
 
     default:
         require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
         echo "<div class='container'>Неизвестное действие</div>";
-        echo "<pre>".var_export($_REQUEST, true)."</pre>";
+        echo "<pre class='container'>".var_export($_REQUEST, true)."</pre>";
         break;
 }
 

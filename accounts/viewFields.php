@@ -5,6 +5,11 @@
     <dt class="col-sm-3">Логин</dt>
     <dd class="col-sm-9"><?= $instance->login ?></dd>
 
+    <?php
+
+
+    ?>
+
     <dt class="col-sm-3">Пароль</dt>
     <dd class="col-sm-9"><?= $instance->password ?></dd>
 

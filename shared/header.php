@@ -35,29 +35,36 @@ $pageTitle = isset($pageTitle) ? $pageTitle : "Next.Accounts";
               <ul class="nav navbar-nav">
 
                   <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="logs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Записи аккаунтов</a>
-                      <div class="dropdown-menu" aria-labelledby="logs">
-                          <a class="dropdown-item" href="../accounts/">База аккаунтов</a>
-                          <a class="dropdown-item" href="../accounts/create.php">Добавить новый</a>
-                      </div>
-                  </li>
+                      <a class="nav-link dropdown-toggle" href="#" id="accounts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Объекты и пользователи</a>
+                      <div class="dropdown-menu" aria-labelledby="accounts">
 
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="logs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Админка</a>
-                      <div class="dropdown-menu" aria-labelledby="logs">
-                          <a class="dropdown-item" href="../users/">Пользователи системы</a>
-                          <a class="dropdown-item" href="../phpmyadmin/">phpMyAdmin</a>
+                          <h6 class="dropdown-header">Аккаунты Steam</h6>
+                          <a class="dropdown-item" href="../accounts/">Список аккаунтов</a>
+                          <a class="dropdown-item" href="../accounts/create.php">Добавить новый аккаунт</a>
+                          <div class="dropdown-divider"></div>
+
+                          <h6 class="dropdown-header">Центры (объекты)</h6>
+                          <a class="dropdown-item" href="../centers/">Список центров</a>
+                          <a class="dropdown-item" href="../centers/create.php">Добавить новый объект</a>
+                              <div class="dropdown-divider"></div>
+
+                          <h6 class="dropdown-header">Пользователи системы</h6>
+                          <a class="dropdown-item" href="../users/">Список пользователей</a>
+                          <a class="dropdown-item" href="../users/create.php">Добавить нового пользователя</a>
+
                       </div>
                   </li>
 
                   <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="logs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Логи</a>
                       <div class="dropdown-menu" aria-labelledby="logs">
-                          <a class="dropdown-item" href="../log/log_page.php?type=errors">Ошибки (errors.log)</a>
-                          <a class="dropdown-item" href="../log/log_page.php?type=process_events">События (process_events.log)</a>
-                          <a class="dropdown-item" href="../log/log_page.php?type=debug">Дебаг (debug.log)</a>
+                          <a class="dropdown-item" href="../log/log_page.php?type=errors">Ошибки <i class="fa fa-exclamation-triangle float-sm-right" aria-hidden="true"></i></a>
+                          <a class="dropdown-item" href="../log/log_page.php?type=process_events">События <i class="fa fa-info float-sm-right" aria-hidden="true"></i></a>
+                          <a class="dropdown-item" href="../log/log_page.php?type=debug">Дебаг <i class="fa fa-bug float-sm-right" aria-hidden="true"></i></a>
                       </div>
                   </li>
+
+                  <li class="nav-item"><a class="nav-link" href="../phpmyadmin/" target="_blank"><i class="fa fa-database" aria-hidden="true"></i> База данных</a></li>
 
                   <?php
                   $username = isset($_COOKIE["login"]) ? $_COOKIE["login"] : null;
@@ -79,7 +86,7 @@ $pageTitle = isset($pageTitle) ? $pageTitle : "Next.Accounts";
                               <i class="fa fa-user" aria-hidden="true"></i> <?= $username ?>
                           </a>
                           <div class="dropdown-menu" aria-labelledby="profile">
-                              <a class="dropdown-item" href="../session/profile.php"><i class="fa fa-user" aria-hidden="true"></i> Профайл</a>
+                              <a class="dropdown-item" href="../session/profile.php"><i class="fa fa-cog" aria-hidden="true"></i> Профайл</a>
                               <a class="dropdown-item" href="../session/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Выйти</a>
                           </div>
                       </li>

@@ -15,7 +15,11 @@ if (!is_null($user)) {
     require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
     ?>
     <div class="container">
-        <h1>Профайл пользователя</h1>
+
+        <div class="mt-2">
+            <h1>Профайл пользователя</h1>
+        </div>
+        
 
         <div class="row">
             <dt  class="col-sm-3">ID пользователя</dt><dd class="col-sm-9"><?= $user->id?></dd>

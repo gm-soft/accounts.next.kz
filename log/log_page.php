@@ -10,12 +10,15 @@
     switch ($logtype) {
         case 'errors':
             $log_filename = $_SERVER["DOCUMENT_ROOT"]."/log/errors.log";
+            $pageTitle = "Логи NEXT.Accounts";
             break;
         case "process_events":
             $log_filename = $_SERVER["DOCUMENT_ROOT"]."/log/process_events.log";
+            $pageTitle = "События в системе NEXT.Accounts";
             break;
         case "debug":
             $log_filename = $_SERVER["DOCUMENT_ROOT"]."/log/debug.log";
+            $pageTitle = "Дебаггинг NEXT.Accounts";
             break;
         default:
             $log_filename = null;
