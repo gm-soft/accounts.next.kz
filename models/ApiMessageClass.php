@@ -55,8 +55,9 @@ class ApiMessage
 
     }
 
-    public static function createApiMessage($type = "GetAccount", $jsonObject = null, $message = null){
+    public static function createApiMessage($type = "GetAccount", $jsonObject = null, $message = null, $code = 200){
         $instance = new self();
+        $instance->Code = $code;
         $me = [
             "IpAddress" => "http://accounts.next.kz/",
             "Name" => "http://accounts.next.kz/",
@@ -81,6 +82,7 @@ class ApiMessage
         $instance->JsonObject = $json["JsonObject"];
         $instance->JsonSender = $json["JsonSender"];
         $instance->StringMessage = $json["StringMessage"];
+        $instance->VacBanFree = filter_var($json["VacBanFree"], FILTER_VALIDATE_BOOLEAN);
 
         return $instance;
     }

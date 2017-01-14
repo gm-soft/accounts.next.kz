@@ -46,21 +46,20 @@
     ?>
 
     <div class="container">
-        <h1><?= $page_header ?></h1>
+        <div class="mt-2">
+            <h1><?= $page_header ?></h1>
+        </div>
 
-        <div class="row">
-            <div class="col-sm-10">
-                <p><a href="..<?= $link_to_file ?>">Открыть</a> текст логов</p>
-                <pre><?= $log_text ?></pre>
-            </div>
 
-            <div class="col-sm-2">
-                <div class="list-group">
-                    <a href="../log/log_page.php?type=errors" class="list-group-item list-group-item-action">errors.log</a>
-                    <a href="../log/log_page.php?type=process_events" class="list-group-item list-group-item-action">events.log</a>
-                    <a href="../log/log_page.php?type=debug" class="list-group-item list-group-item-action">debug.log</a>
-                </div>
-            </div>
+        <div class="btn-group">
+            <a class="btn btn-secondary" href="../log/log_page.php?type=errors" >errors.log</a>
+            <a class="btn btn-secondary" href="../log/log_page.php?type=process_events" >process_events.log</a>
+            <a class="btn btn-secondary" href="../log/log_page.php?type=debug">debug.log</a>
+        </div>
+
+        <div>
+            <p><a href="..<?= $link_to_file ?>">Открыть</a> текст логов</p>
+            <pre><?= $log_text ?></pre>
         </div>
     </div>
 

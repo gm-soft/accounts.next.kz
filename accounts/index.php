@@ -3,17 +3,35 @@ require $_SERVER["DOCUMENT_ROOT"]."/include/config.php";
 //------------------------------------------------------
 
 $mysql = MysqlHelper::getNewInstance();
+$tableTitle = "Список аккаунтов";
 
-$startFrom = isset($_GET["p"]) ? intval($_GET["p"]) : 0;
-$rowLimit = isset($_GET["limit"]) ? intval($_GET["limit"]) : 50;
+$url = "http://accounts.next.kz/rest/ajax.requests.php?action=account.list";
+if (isset($_GET["available"])) {
+    $statement = $_GET["available"] == 'true' ? "true" : "false";
+    $url .= "&available=".$statement;
 
-$accounts = $mysql->getSteamAccounts();
+    $tableTitle = $statement == "true" ? "Список свободных аккаунтов" : "Список занятых аккаунтов";
+}
+
+if (isset($_GET["banned"])) {
+    $statement = $_GET["banned"] == 'true' ? "true" : "false";
+    $url .= "&vac_banned=".$statement;
+    $tableTitle = $statement == "true" ? "Список аккаунтов за баном" : "Список аккаунтов без бана";
+}
+
+$accountsResponse = ApplicationHelper::query($url, null, "GET");
+
+$accounts = $accountsResponse["result"];
+$total = $accountsResponse["total"];
+
+
+
 $pageTitle = "Список сущностей NEXT.Accounts";
 require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
 ?>
     <div class="container">
         <div class="mt-2">
-            <h1>Список аккаунтов</h1>
+            <h1><?= $tableTitle ?></h1>
         </div>
         
 
@@ -24,23 +42,13 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                     <div class="card-block">
                         <h4 class="card-title">Навигация и фильтр</h4>
                         <p class="card-text">
-                            Навигация по списку:
-
-                            <div class="btn-group" role="group" aria-label="Navigation">
-                                <?php
-                                $prevUrl = $startFrom != 0 ? "../accounts/?p=".($startFrom - $rowLimit)."&limit=".$rowLimit : null;
-                                $nextUrl = count($accounts) == 50 ? "../accounts?p=".($startFrom + $rowLimit)."&limit=".$rowLimit : null;
-
-
-                                ?>
-
-                                <a href="<?= $prevUrl ?>" class="btn btn-outline-secondary <?= is_null($prevUrl) ? "disabled" : "" ?>"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-                                <a href="<?= $nextUrl ?>" class="btn btn-outline-secondary <?= is_null($nextUrl) ? "disabled" : "" ?>"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-                            </div>
-                            <hr>
                             <div class="btn-group-vertical">
                                 <a class="btn btn-secondary" href="../accounts/">Все записи</a>
-                                <a class="btn btn-secondary" href="../accounts/create.php"><i class="fa fa-plus"  aria-hidden="true"></i> Создать новую запись</a>
+                                <a class="btn btn-secondary" href="../accounts/?available=true">Свободные аккаунты</a>
+                                <a class="btn btn-secondary" href="../accounts/?available=false">Занятые аккаунты</a>
+                                <a class="btn btn-secondary" href="../accounts/?banned=true">Аккаунты с баном</a>
+                                <a class="btn btn-secondary" href="../accounts/?banned=false">Аккаунты без бана</a>
+                                <a class="btn btn-primary" href="../accounts/create.php"><i class="fa fa-plus"  aria-hidden="true"></i> Создать новую запись</a>
                             </div>
 
                         </p>
@@ -55,7 +63,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                 <div class="row">
 
                     <div class="col-sm-8">
-                        <h4>Результат выборки</h4>
+                        <h4>Результат выборки. Кол-во записей: <?= $total ?></h4>
                     </div>
                     <div class="col-sm-4 float-sm-right">
                         <div class="form-group">
@@ -78,9 +86,10 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                         <tr>
                             <th>#</th>
                             <th>ID</th>
-                            <th>Логин (login)</th>
-                            <th>Доступность для клиентов (available)</th>
-                            <th>Статус vac-бана (vac_banned)</th>
+                            <th>Логин</th>
+                            <th>Доступн</th>
+                            <th>Статус vac-бана</th>
+                            <th>Последнее обновление</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -92,10 +101,16 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                             ?>
                             <tr>
                                 <th><?= $i + 1 ?></th>
-                                <td><?= $value->id ?></td>
-                                <td><a href="../accounts/view.php?id=<?= $value->id?>" title="Открыть"><?= $value->login ?></a></td>
-                                <td><?= $value->available == true ? "Доступен" : "Занят" ?></td>
-                                <td><?= $value->vacBanned == true ? "Забанен" : "Без бана" ?></td>
+                                <td><?= $value["id"] ?></td>
+                                <td><a href="../accounts/view.php?id=<?= $value["id"]?>" title="Открыть"><?= $value["login"] ?></a></td>
+                                <td><?= $value["available"] == true ? "Доступен" : "Занят" ?></td>
+                                <td><?= $value["vacBanned"] == true ? "Забанен" : "Без бана" ?></td>
+                                <?php
+
+                                    $updatedAt = substr($value["updatedAt"]["date"], 0, strpos($value["updatedAt"]["date"], ".000000"));
+                                    $date = DateTime::createFromFormat("Y-m-d H:i:s", $updatedAt);
+                                ?>
+                                <td><?= date("Y-m-d H:i:s", $date->getTimestamp() + 6*3600) ?></td>
                             </tr>
 
                             <?php
@@ -160,7 +175,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
         function SearchByField(value){
             searchBtn.prop('disabled', true);
             searchBtn.addClass('disabled');
-            var url = "http://accounts.next.kz/rest/accounts.php";
+            var url = "http://accounts.next.kz/rest/ajax.requests.php";
             var prms = {
                 "action" : "account.get",
                 "value" : value

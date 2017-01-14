@@ -32,5 +32,5 @@ switch ($instance->permission){
     <dd class="col-sm-9"><?= $permission ?> (<?= $instance->permission ?>)</dd>
 
     <dt class="col-sm-3">Был создан</dt>
-    <dd class="col-sm-9"><?= date("Y-m-d H:i:s", $instance->created_at->getTimestamp())  ?></dd>
+    <dd class="col-sm-9"><?= date("Y-m-d H:i:s", $instance->created_at->getTimestamp()+ 6 * 3600)  ?></dd>
 </dl>

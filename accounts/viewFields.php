@@ -25,12 +25,15 @@
     <dt class="col-sm-3">Компьютер, взявший аккаунт</dt>
     <dd class="col-sm-9"><?= !is_null($instance->computerName) ? "$instance->computerName" : " - " ?></dd>
 
+    <dt class="col-sm-3">Центр, взявший аккаунт</dt>
+    <dd class="col-sm-9"><?= !is_null($instance->center) ? "$instance->center" : " - " ?></dd>
+
     <dt class="col-sm-3">Последняя операция</dt>
     <dd class="col-sm-9"><?= $instance->lastOperation ?></dd>
 
     <dt class="col-sm-3">Обновлен</dt>
-    <dd class="col-sm-9"><?= date("Y-m-d H:i:s", $instance->updatedAt->getTimestamp())  ?></dd>
+    <dd class="col-sm-9"><?= date("Y-m-d H:i:s", $instance->updatedAt->getTimestamp() + 6 * 3600)  ?></dd>
 
     <dt class="col-sm-3">Был создан</dt>
-    <dd class="col-sm-9"><?= date("Y-m-d H:i:s", $instance->createdAt->getTimestamp())  ?></dd>
+    <dd class="col-sm-9"><?= date("Y-m-d H:i:s", $instance->createdAt->getTimestamp()+ 6 * 3600)  ?></dd>
 </dl>

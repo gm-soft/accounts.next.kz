@@ -23,13 +23,12 @@ class ApplicationHelper
     /**
      * Совершает запрос с заданными данными по заданному адресу. В ответ ожидается JSON
      *
-     * @param string $method GET|POST - тип запроса
      * @param string $url адрес
      * @param array|null $data параметры запроса: Post или Get аргументы
-     *
+     * @param string $method GET|POST - тип запроса
      * @return array
      */
-    public static function query($method, $url, $data = null)
+    public static function query($url, $data = null, $method = "POST")
     {
         $query_data = "";
 

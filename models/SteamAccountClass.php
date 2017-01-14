@@ -198,5 +198,20 @@ class SteamAccount
         return $account;
     }
 
+    public static function fromJson($jsonArray) {
+        // {"Id":2,"Login":"KZ1101000pc48","Password":"3458849169","Available":false,"ComputerName":"","CenterOwner":"Unknown","VacBanned":false}
+        $instance = new self();
+        $instance->id = $jsonArray["Id"];
+        $instance->login = $jsonArray["Login"];
+        $instance->password = $jsonArray["Password"];
+        $instance->available = filter_var($jsonArray["Available"], FILTER_VALIDATE_BOOLEAN);
+        $instance->computerName = $jsonArray["ComputerName"];
+        $instance->center = $jsonArray["CenterOwner"];
+        $instance->vacBanned = filter_var($jsonArray["VacBanned"], FILTER_VALIDATE_BOOLEAN);
+
+        return $instance;
+
+    }
+
 
 }

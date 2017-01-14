@@ -345,18 +345,20 @@ class MysqlHelper
      * @param string $condition - соединитель условий: AND/OR
      * @return null|SteamAccount[]
      */
-    public function filterSteamAccounts(array $filterConditions, $condition = "and"){
-        $query = "select * from ".self::TABLE_ACCOUNTS." where ";
+    public function filterSteamAccounts(array $filterConditions, $condition = "AND"){
+        $query = "SELECT * FROM `".self::TABLE_ACCOUNTS."`";
 
-        for ($i = 0; $i < count($filterConditions); $i++){
-            $field = $filterConditions[$i];
+        if (count($filterConditions) > 0){
 
-            $query .= $field;
-            if ($i != count($filterConditions) - 1) {
-                $query .= " ".$condition. " ";
+            $query .= " WHERE ";
+            for ($i = 0; $i < count($filterConditions); $i++){
+                $field = $filterConditions[$i];
+
+                $query .= $field;
+                if ($i != count($filterConditions) - 1) {
+                    $query .= " ".$condition. " ";
+                }
             }
-
-
         }
         $query_result = $this->selectData($query);
         if ($query_result["result"] == true) {
@@ -431,6 +433,28 @@ class MysqlHelper
     }
 
     /**
+     * Обновляет состояние доступности, имя компьютера, центр, последнюю операцию
+     *
+     * @param SteamAccount $instance
+     * @return array("result" => true/false, "data")
+     */
+    public function updateSteamUsing($instance){
+        $available = $instance->available == true ? 1 : 0;
+
+        $query = "UPDATE `".self::TABLE_ACCOUNTS."` SET ".
+            "`account_available` = ".$available.", ".
+            "`account_computer_name` = '".$instance->computerName."',".
+            "`account_center` = '".$instance->center."',".
+            "`account_last_operation` = '".$instance->lastOperation."', ".
+
+            "`updated_at`=now()".
+            " where account_id=".$instance->id;
+
+        $query_result = $this->executeQuery($query);
+        return $query_result;
+    }
+
+    /**
      * Удаляет аккаунт
      *
      * @param $instance SteamAccount
@@ -480,7 +504,9 @@ class MysqlHelper
             $result = true;
 
         } else {
+
             $data = mysqli_error($this->context);
+            ApplicationHelper::processError("Ошибка выполнения запроса [".$query."] (Select): ".$data);
             $result = false;
         }
         return array(
@@ -507,7 +533,7 @@ class MysqlHelper
 
         } else {
             $data = mysqli_error($this->context);
-            ApplicationHelper::processError("Ошибка выполнения запроса: ".var_export($data, true));
+            ApplicationHelper::processError("Ошибка выполнения запроса [".$query."] (Execute): ".$data);
             $result = false;
         }
         return array("result" => $result, "data" => $data);

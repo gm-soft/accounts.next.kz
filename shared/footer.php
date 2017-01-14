@@ -1,9 +1,9 @@
 
-    <p>
+    <!--p>
         <pre class="container">
             <?= var_export($_COOKIE, true) ?>
         </pre>
-    </p>
+    </p-->
 
 
   </body>

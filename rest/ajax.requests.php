@@ -19,19 +19,28 @@ $mysql = MysqlHelper::getNewInstance();
 switch ($action){
 
     case "account.list":
-        $withPagination = isset($_REQUEST["withPagination"]) ? $_REQUEST["withPagination"] : false;
-            $start = isset($_REQUEST["start"]) ? $_REQUEST["start"] : 0;
-            $limit = isset($_REQUEST["limit"]) ? $_REQUEST["limit"] : 50;
-            $dbResponse = $mysql->getSteamAccounts($withPagination, $start, $limit);
-            $instances = $dbResponse["data"];
 
-            $response["result"] = $instances;
-            $response["total"] = count($instances);
+        $filterFields = [];
 
-            if ($withPagination == true){
-                $response["start"] = $start;
-                $response["next"] = $start + $limit;
-            }
+        if (isset($_REQUEST["available"])){
+
+            $statement = $_REQUEST["available"] == 'true' ? "1" : "0";
+            $condition = "`account_available`=".$statement;
+            $filterFields[] = $condition;
+        }
+
+        if (isset($_REQUEST["vac_banned"])) {
+            $statement = $_REQUEST["vac_banned"] == 'true' ? "1" : "0";
+            $condition = "`account_vac_banned`=".$statement;
+            $filterFields[] = $condition;
+        }
+
+
+        $instances = $mysql->filterSteamAccounts($filterFields);
+        $response["total"] = count($instances);
+        $response["result"] = $instances;
+
+        $response["request"] = $_REQUEST;
         break;
 
     case "account.get":
