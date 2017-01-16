@@ -30,8 +30,16 @@ if ($viewPermission == false){
 }
 
 $pageTitle = "Просмотр сущности NEXT.Accounts";
-require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
 $instance = $mysql->getCenter($id, "center_id");
+
+if (is_null($instance)){
+    $_SESSION["errors"] = array("Объект не найден");
+    ApplicationHelper::redirect("../centers/");
+}
+$accounts = $mysql->filterSteamAccounts(["`account_center` = '".$instance->code."'"]);
+
+require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
+
 ?>
     <div class="container">
         <div class="mt-2">

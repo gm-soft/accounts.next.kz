@@ -11,13 +11,19 @@ $pageTitle = isset($pageTitle) ? $pageTitle : "Next.Accounts";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="googlebot" content="noindex">
+
     <title><?= $pageTitle ?></title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+      <link rel="stylesheet" href="../assets/css/circle.css">
 
-    <script src="../assets/js/tether.min.js"></script>
+
+      <script src="../assets/js/tether.min.js"></script>
     <script src="../assets/js/jquery-3.1.1.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
   

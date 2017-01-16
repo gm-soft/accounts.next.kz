@@ -35,6 +35,12 @@ switch ($action){
             $filterFields[] = $condition;
         }
 
+        if (isset($_GET["center"])){
+            $center = ApplicationHelper::ClearInputData($_GET["center"]);
+            $condition = "`account_center`='".$center."'";
+            $filterFields[] = $condition;
+        }
+
 
         $instances = $mysql->filterSteamAccounts($filterFields);
         $response["total"] = count($instances);

@@ -20,7 +20,23 @@ switch ($apiRequest->RequestType){
         if ($vacBanFreeRequest == true) {
             $filterArray[] = "account_vac_banned=0";
         }
+
+        $center = $mysql->getCenter($sender["CenterName"]);
+        if (is_null($center)){
+            $response = ApiMessage::createApiMessage($apiRequest->RequestType, null, "Центр не найден", 404);
+            ApplicationHelper::logEvent("Центр ".$sender["CenterName"]." запросил аккаунт, однако такой центр не был найден в системе");
+            break;
+        }
+
+        if ($center->count >= $center->limit) {
+
+            $response = ApiMessage::createApiMessage($apiRequest->RequestType, null, "Лимит был достингут", 404);
+            ApplicationHelper::logEvent("Центр ".$sender["CenterName"]." запросил аккаунт, однако лимит был достигнут");
+            break;
+        }
+
         $freeAccounts = $mysql->filterSteamAccounts($filterArray, "AND");
+
         if (count($freeAccounts) > 0) {
             $account = SteamAccount::getRandomAccount($freeAccounts);
 
@@ -31,18 +47,17 @@ switch ($apiRequest->RequestType){
 
 
             $mysql->updateSteamAccount($account);
-            $apiMessage = ApiMessage::createApiMessage($apiRequest->RequestType, $account->getJson(), "this is test");
-
+            $response = ApiMessage::createApiMessage($apiRequest->RequestType, $account->getJson(), "this is test");
             ApplicationHelper::logEvent("Аккаунт ".$account->login."[".$account->id."] взят в центр ".$sender["CenterName"]."");
-        } else {
-            $apiMessage = ApiMessage::createApiMessage($apiRequest->RequestType, null, "this is test", 404);
-            ApplicationHelper::logEvent("Центр ".$sender["CenterName"]." запросил аккаунт, однако ни одного аккаунта не было найдено по запросу. vacBanFreeRequest = $vacBanFreeRequest");
+
+            $mysql->updateCenterUsage($sender["CenterName"], true);
+
+
+            break;
         }
 
-
-
-
-        $response = $apiMessage;
+        $response = ApiMessage::createApiMessage($apiRequest->RequestType, null, "Не свободных аккаунтов по запросу", 404);
+        ApplicationHelper::logEvent("Центр ".$sender["CenterName"]." запросил аккаунт, однако ни одного аккаунта не было найдено по запросу. vacBanFreeRequest = $vacBanFreeRequest");
         break;
 
     case "ReleaseAccount":
@@ -62,6 +77,10 @@ switch ($apiRequest->RequestType){
         $response = $apiMessage;
 
         ApplicationHelper::logEvent("Аккаунт ".$account->login."[".$account->id."] возвращен из центра ".$sender["CenterName"]."");
+
+        $mysql->updateCenterUsage($sender["CenterName"], false);
+
+
         break;
 
     case "UsingAccount":

@@ -152,17 +152,38 @@ class MysqlHelper
      * Обновляет центр в базе
      *
      * @param $instance Center
+     * @param bool $withUpdateDate
      * @return array
      */
-    public function updateCenter($instance) {
+    public function updateCenter($instance, $withUpdateDate = true) {
+
+        $updatePart = $withUpdateDate == true ? ", `updated_at`=now()" : "";
+
         $query = "update `".self::TABLE_CENTERS."` set ".
             "`center_name`='".$instance->name."', ".
             "`center_code`='".$instance->code."', ".
             "`center_limit`=".$instance->limit.", ".
             "`center_count`=".$instance->count.", ".
-            "`center_description`='".$instance->description."', ".
-            "`updated_at`=now()".
+            "`center_description`='".$instance->description."' ".
+            $updatePart.
             " where center_id = ".$instance->id;
+        $query_result = $this->executeQuery($query);
+
+        if ($query_result["result"] != true) {
+            return $query_result;
+        }
+        //$query_result["data"] = mysqli_insert_id($this->context);;
+        //$id = mysqli_insert_id($this->context);
+        return $query_result;
+    }
+
+
+    public function updateCenterUsage($centerCode, $isIncrement = true){
+        $updatePart = $isIncrement == true ? "+ 1" : "- 1";
+
+        $query = "update `".self::TABLE_CENTERS."` set ".
+            "`center_count`=`center_count` $updatePart".
+            " where center_code = '".$centerCode."'";
         $query_result = $this->executeQuery($query);
 
         if ($query_result["result"] != true) {
@@ -401,12 +422,15 @@ class MysqlHelper
      * Обновляет запись аккаунта в БД
      *
      * @param $instance SteamAccount
-     * @return array("result" => true/false, "data" => id)
+     * @param bool $incrementUsing
+     * @return array
      */
-    public function updateSteamAccount($instance){
+    public function updateSteamAccount($instance, $incrementUsing = false){
         $updateDate = date("Y-m-d H:i:s", $instance->updatedAt->getTimestamp());
         $available = $instance->available == true ? 1 : 0;
         $vacBanned = $instance->vacBanned == true ? 1 : 0;
+
+        $incrementPart = $incrementUsing == false ? "`account_usage` = `account_usage` + 1, " : "";
 
         $query = "UPDATE `".self::TABLE_ACCOUNTS."` SET ".
             "`account_login` = '".$instance->login."', ".
@@ -418,6 +442,7 @@ class MysqlHelper
             "`account_vac_banned` = ".$vacBanned.", ".
             "`account_usage` = ".$instance->usageTimes.", ".
             "`account_last_operation` = '".$instance->lastOperation."', ".
+            $incrementPart.
 
             "`updated_at`=now()".
             " where account_id=".$instance->id;
@@ -436,16 +461,19 @@ class MysqlHelper
      * Обновляет состояние доступности, имя компьютера, центр, последнюю операцию
      *
      * @param SteamAccount $instance
-     * @return array("result" => true/false, "data")
+     * @param bool $incrementUsing
+     * @return array
      */
-    public function updateSteamUsing($instance){
+    public function updateSteamUsing($instance, $incrementUsing = false){
         $available = $instance->available == true ? 1 : 0;
+        $incrementPart = $incrementUsing == true ? "`account_usage` = `account_usage` + 1, " : "";
 
         $query = "UPDATE `".self::TABLE_ACCOUNTS."` SET ".
             "`account_available` = ".$available.", ".
             "`account_computer_name` = '".$instance->computerName."',".
             "`account_center` = '".$instance->center."',".
             "`account_last_operation` = '".$instance->lastOperation."', ".
+            $incrementPart.
 
             "`updated_at`=now()".
             " where account_id=".$instance->id;
