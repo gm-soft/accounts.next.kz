@@ -10,7 +10,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="userId">ID</label>
                 <div class="col-sm-10">
-                    <input type="number" id="userId" class="form-control" required maxlength="50" value="<?= $formData["user_id"] ?>" >
+                    <input type="number" id="userId" class="form-control" value="<?= $formData["user_id"] ?>" disabled>
                 </div>
                 <input type="hidden" name="id" value="<?= $formData["user_id"] ?>">
             </div>
@@ -80,7 +80,7 @@
         <div class="col-sm-12">
             <div class="float-sm-right">
                 <button type="submit" id="submit-btn" class="btn btn-primary">Сохранить</button>
-                <a href="../accounts/" class="btn btn-secondary">Отмена</a>
+                <a href="../users/" class="btn btn-secondary">Отмена</a>
             </div>
         </div>
     </div>

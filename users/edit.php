@@ -43,6 +43,13 @@ switch ($actionPerformed){
             ApplicationHelper::redirect("../users/");
         }
 
+        if ($currentUser->permission <= $instance->permission && $instance->id != $currentUser->id){
+            $_SESSION["errors"] = array("У вас недостаточно прав для этого действия");
+            ApplicationHelper::redirect("../users/");
+        }
+
+       
+
         require_once($_SERVER["DOCUMENT_ROOT"]."/shared/header.php");
         $formAction = "edit.php";
         $formData = $instance->getAsFormData();
