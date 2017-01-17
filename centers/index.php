@@ -60,6 +60,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                             <th>Название</th>
                             <th>Код объекта</th>
                             <th>Лимит</th>
+                            <th>Взял акков</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -75,6 +76,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                                 <td><a href="../centers/view.php?id=<?= $value->id?>" title="Открыть"><?= $value->name ?></a></td>
                                 <td><?= $value->code ?></td>
                                 <td><?= $value->limit ?></td>
+                                <td><?= $value->count ?></td>
                             </tr>
 
                             <?php

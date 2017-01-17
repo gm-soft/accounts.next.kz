@@ -25,8 +25,8 @@ switch ($instance->permission){
     <dt class="col-sm-3">Логин</dt>
     <dd class="col-sm-9"><?= $instance->login ?></dd>
 
-    <dt class="col-sm-3">Пароль</dt>
-    <dd class="col-sm-9"><?= $instance->password ?></dd>
+    <!--dt class="col-sm-3">Пароль</dt>
+    <dd class="col-sm-9"><?= $instance->password ?></dd-->
 
     <dt class="col-sm-3">Уровень доступа</dt>
     <dd class="col-sm-9"><?= $permission ?> (<?= $instance->permission ?>)</dd>

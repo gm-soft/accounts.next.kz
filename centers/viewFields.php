@@ -37,7 +37,7 @@
                     foreach ($accounts as $account){
                         echo "<tr>";
 
-                        echo "<td>".$account->id."</td><td>".$account->login."</td><td>".date("Y-m-d H:i:s", $account->updatedAt->getTimestamp() + 6*3600)."</td>";
+                        echo "<td>".$account->id."</td><td><a href='../accounts/view.php?id=".$account->id."'>".$account->login."</a></td><td>".date("Y-m-d H:i:s", $account->updatedAt->getTimestamp() + 6*3600)."</td>";
                         echo "</tr>";
                     }
                     ?>
