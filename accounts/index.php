@@ -116,8 +116,9 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                         <th>ID</th>
                         <th>Логин</th>
                         <th>Доступ</th>
-                        <th>Статус vac-бана</th>
-                        <th>Последнее обновление</th>
+                        <th>Vac-бан</th>
+                        <th>Взят</th>
+                        <th>Обновлен</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -133,6 +134,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                             <td><a href="../accounts/view.php?id=<?= $value["id"]?>" title="Открыть"><?= $value["login"] ?></a></td>
                             <td><?= $value["available"] == true ? "Доступен" : "Занят" ?></td>
                             <td><?= $value["vacBanned"] == true ? "Забанен" : "Без бана" ?></td>
+                            <td><?= $value["usageTimes"] ?> раз</td>
                             <?php
 
                                 $updatedAt = substr($value["updatedAt"]["date"], 0, strpos($value["updatedAt"]["date"], ".000000"));
@@ -169,9 +171,9 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/shared/header.php";
                 "<tr>" +
                 "<th>#</th>" +
                 "<th>ID</th>" +
-                "<th>Логин (login)</th>" +
-                "<th>Доступность для клиентов (available)</th>" +
-                "<th>Статус vac-бана (vac_banned)</th>" +
+                "<th>Логин</th>" +
+                "<th>Доступность</th>" +
+                "<th>Статус vac-бана</th>" +
                 "</tr>" +
                 "</thead>";
 

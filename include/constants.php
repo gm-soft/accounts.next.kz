@@ -5,3 +5,5 @@
     define('DATABASE_PASSWORD', "st1744as");
 
     define('COOKIES_EXPIRED_TIME', 60*60*24*30);
+
+    define ('DEBUG', false);

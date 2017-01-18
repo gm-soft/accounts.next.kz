@@ -52,4 +52,15 @@ class CookieHelper
         $user = $mysql->getUser($hash, "user_hash");
         return $user;
     }
+
+    public static function IsAuthorized(){
+        $result = isset($_COOKIE) && isset($_COOKIE["hash"]);
+        return $result;
+    }
+
+    public static function CheckAuthorizationInfo(){
+        if (!CookieHelper::IsAuthorized() && $_SERVER['REQUEST_URI'] != "/session/login.php"){
+            ApplicationHelper::redirect("../session/login.php");
+        }
+    }
 }
