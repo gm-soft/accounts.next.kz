@@ -16,7 +16,7 @@ require $_SERVER["DOCUMENT_ROOT"]."/helpers/CookieHelperClass.php";
 if (!CookieHelper::IsAuthorized()){
 
     if ($_SERVER['REQUEST_URI'] == "/session/login.php" ||
-        strpos($_SERVER['REQUEST_URI'], 'rest') !== false) return;
+        strpos($_SERVER['REQUEST_URI'], '/rest/') !== false) return;
 
     ApplicationHelper::redirect("../session/login.php");
 }
