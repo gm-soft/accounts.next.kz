@@ -28,7 +28,7 @@ switch ($apiRequest->RequestType){
             break;
         }
 
-        if ($center->count >= $center->limit) {
+        if (false /*$center->count >= $center->limit*/) {
 
             $response = ApiMessage::createApiMessage($apiRequest->RequestType, null, "Лимит был достингут", 404);
             ApplicationHelper::logEvent("Центр ".$sender["CenterName"]." запросил аккаунт, однако лимит был достигнут");
